@@ -4,7 +4,8 @@
         "Unity.XR.Management",
         "UnityEngine.SpatialTracking",
         "UnityEngine.XR.LegacyInputHelpers",
-	"Google.XR.Cardboard"
+	"Google.XR.Cardboard",
+	"Unity.XR.ARFoundation"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

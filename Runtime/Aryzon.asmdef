@@ -1,0 +1,17 @@
+{
+    "name": "Aryzon",
+    "references": [
+        "Unity.XR.Management",
+        "UnityEngine.SpatialTracking",
+        "UnityEngine.XR.LegacyInputHelpers",
+	"Google.XR.Cardboard"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

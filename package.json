@@ -1,0 +1,25 @@
+{
+    "name": "com.aryzon.unity-sdk",
+    "displayName": "Aryzon MR Headset Unity SDK",
+    "version": "3.0.0",
+    "unity": "2019.3",
+    "description": "Provides UI, user input (reticle) and controller support for Aryzon XR experiences. It is recommended to combine this with the Aryzon fork of the Google Cardboard SDK.",
+    "keywords": [
+        "aryzon",
+        "6dof",
+    "cardboard",
+        "ar",
+        "vr",
+        "xr",
+        "reality"
+  ],
+    "dependencies": {
+  },
+    "samples": [
+        {
+            "displayName": "Aryzon Examples",
+            "description": "ARFoundation and gyro based example",
+            "path": "Samples~"
+        }
+    ]
+}

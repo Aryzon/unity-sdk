@@ -6,7 +6,7 @@
 4. Also import the samples from this pacakage.
 
 ### 3DoF tracking
-Use 3 degrees of freedom tracking when the user position is steady and cannot walk around. Follow these instructions to get rotational tracking only:
+Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow these instructions to get rotational tracking only:
 
 5. In the player settings head over to XR Plugin Management, select Cardboard for your target platforms.
 6. Find the Rotational Tracking scene in Assets -> Samples.

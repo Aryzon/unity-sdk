@@ -1,8 +1,8 @@
 # Aryzon Unity SDK
 ## Getting started
 1. In the Unity package manager choose to add a package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/cardboard-xr-plugin.git`<br>**Do not import the samples.**
-2. For Android [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#configuring_android_project_settings)<br>**Important: skip the Resolution and Presentation step. Choosing Autorotate or Portrait is fine.**
-3. For iOS [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#configuring_ios_project_settings)
+2. For Android [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#player_settings)<br>**Important: skip the Resolution and Presentation step. Choosing Autorotate or Portrait is fine.**
+3. For iOS [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#player_settings_2)
 4. In the Unity package manager choose to add another package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/unity-sdk.git`
 5. Also import the samples from this pacakage.
 

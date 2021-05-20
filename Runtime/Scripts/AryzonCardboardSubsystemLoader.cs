@@ -38,6 +38,7 @@ namespace Aryzon
             if (!loader)
             {
                 loader = ScriptableObject.CreateInstance<XRLoader>();
+                XRLoader.renderWidgets = false;
             }
 #if !UNITY_EDITOR
             loader.Initialize();
@@ -80,17 +81,18 @@ namespace Aryzon
             {
                 return;
             }
-
-            if (Api.IsGearButtonPressed)
+            if (XRLoader.renderWidgets)
             {
-                Api.ScanDeviceParams();
-            }
+                if (Api.IsGearButtonPressed)
+                {
+                    Api.ScanDeviceParams();
+                }
 
-            if (Api.IsCloseButtonPressed)
-            {
-                Application.Quit();
+                if (Api.IsCloseButtonPressed)
+                {
+                    Application.Quit();
+                }
             }
-
             if (Api.HasNewDeviceParams())
             {
                 Api.ReloadDeviceParams();

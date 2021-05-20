@@ -12,9 +12,36 @@ namespace Aryzon
         public GameObject phoneInHeadsetUI;
         public GameObject settingsUI;
 
+        private GameObject closeButton;
+        private GameObject CloseButton
+        {
+            get
+            {
+                if (!closeButton)
+                {
+                    closeButton = phoneInHeadsetUI.transform.Find("Back").gameObject;
+                }
+                return closeButton;
+            }
+        }
+
         private void Start()
         {
             AryzonSettings.Instance.RegisterEventHandler(this);
+
+            if (AryzonSettings.Instance.aryzonManager.setAryzonModeOnStart)
+            {
+                CloseButton.SetActive(false);
+            }
+            else
+            {
+                CloseButton.SetActive(true);
+            }
+
+            if (AryzonSettings.Instance.aryzonManager.aryzonMode && !AryzonSettings.Instance.aryzonManager.stereoscopicMode)
+            {
+                ShowMainUI();
+            }
         }
 
         private void OnDestroy()
@@ -42,6 +69,14 @@ namespace Aryzon
         public void StartAryzonMode()
         {
             AryzonSettings.Instance.aryzonManager.StartAryzonMode();
+
+            if (AryzonSettings.Instance.aryzonManager.setAryzonModeOnStart)
+            {
+                CloseButton.SetActive(false);
+            } else
+            {
+                CloseButton.SetActive(true);
+            }
         }
         public void StopAryzonMode()
         {

@@ -1,7 +1,7 @@
 # Aryzon Unity SDK
 ## Getting started
 1. In the Unity package manager choose to add a package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/cardboard-xr-plugin.git`<br>**Do not import the samples.**
-2. For Android [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#configuring_android_project_settings)
+2. For Android [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#configuring_android_project_settings)<br>**Important: skip the Resolution and Presentation step. Choosing Autorotate or Portrait is fine.**
 3. For iOS [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#configuring_ios_project_settings)
 4. In the Unity package manager choose to add another package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/unity-sdk.git`
 5. Also import the samples from this pacakage.
@@ -18,6 +18,6 @@ Use this type of tracking when the user should be able to walk around. This is r
 
 6. Add ARFoundation through the package manager.
 7. For Android add ARCore and for iOS add ARKit from the package manager.
-9. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms.
+9. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms.<br>**Important: deselect Cardboard**.
 10. Find the ARFoundation Tracking scene in Assets -> Samples.
 11. You can now build and run this scene.

@@ -7,14 +7,14 @@
 ### 3DoF tracking
 Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow these instructions to get rotational tracking only:
 
-5. In the player settings head over to XR Plugin Management, select Cardboard for your target platforms.
-6. Find the Rotational Tracking scene in Assets -> Samples.
-7. You can now build and run this scene.
+4. In the player settings head over to XR Plugin Management, select Cardboard for your target platforms.
+5. Find the Rotational Tracking scene in Assets -> Samples.
+6. You can now build and run this scene.
 
 ### 6DoF Room scale tracking
 Use 6 degrees of freedom tracking when the user should be able to walk around. Follow these steps to get 6DoF tracking:
 
-5. Add ARFoundation through the package manager.
-6. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms.<br>**Important: deselect Cardboard**. This will automatically install the package from the package manager for you.
-7. Find the ARFoundation Tracking scene in Assets -> Samples.
-8. You can now build and run this scene.
+4. Add ARFoundation through the package manager.
+5. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms.<br>**Important: deselect Cardboard**. This will automatically install the package from the package manager for you.
+6. Find the ARFoundation Tracking scene in Assets -> Samples.
+7. You can now build and run this scene.

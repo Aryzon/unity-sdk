@@ -25,7 +25,7 @@ Follow the official Google Cardboard SDK steps under [**Other Settings**](https:
 6. You can now build and run this scene.
 
 ### 6DoF tracking
-4. Add **ARFoundation** through the package manager from the **Unity Registry**.
+4. Add **ARFoundation** through the package manager from the **Unity Registry**. Make sure to use ARFoundation 3.0 or newer otherwise the ARTrackedPoseDriver cannot be found.
 5. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms. This should automatically install the package from the package manager for you.<br>**Important: DO NOT select Cardboard**.
 6. In **Player Settings -> Other Settings** add this to the **Camera Usage Description**:<br>`Camera usage is required for AR and the Cardboard SDK requires camera permission to read a QR code (required to get the encoded device parameters).`
 7. Open the ARFoundation Tracking scene in Assets -> Samples.

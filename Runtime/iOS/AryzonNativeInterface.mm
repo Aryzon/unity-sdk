@@ -1,20 +1,17 @@
 extern "C" {
     void setBrightnessToHighest() {
-        NSLog(@"Setting Brightness");
         [[UIScreen mainScreen] setBrightness:1.0];
     }
 }
 
 extern "C" {
     void setBrightnessToValue(float value) {
-        NSLog(@"Setting Brightness to value: %f", value);
         [[UIScreen mainScreen] setBrightness:value];
     }
 }
 
 extern "C" {
     float getBrightness() {
-        NSLog(@"Getting Brightness");
         return (float)[[UIScreen mainScreen] brightness];
     }
 }

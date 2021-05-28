@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: AryzonMarkers
+  m_EditorClassIdentifier: 
+  m_GuidLow: 5642159201967097778
+  m_GuidHigh: 11275329228326374074
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5025475094478170245
+      m_GuidHigh: 16152224469557073799
+    m_SerializedTextureGuid:
+      m_GuidLow: 8416443615619699426
+      m_GuidHigh: 3176537698258104266
+    m_Size: {x: 0.175, y: 0.175}
+    m_SpecifySize: 1
+    m_Name: AryzonV4_MarkerImage
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5408885647195389609
+      m_GuidHigh: 11512214393213788801
+    m_SerializedTextureGuid:
+      m_GuidLow: 2599590304183646119
+      m_GuidHigh: 2770761289249466920
+    m_Size: {x: 0.192, y: 0.192}
+    m_SpecifySize: 1
+    m_Name: AryzonV3_MarkerImage
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4680873592185567729
+      m_GuidHigh: 17239703872690332553
+    m_SerializedTextureGuid:
+      m_GuidLow: 17587236248051197945
+      m_GuidHigh: 13675583863329467288
+    m_Size: {x: 0.14, y: 0.14}
+    m_SpecifySize: 1
+    m_Name: AryzonSmall_MarkerImage
+    m_Texture: {fileID: 0}

@@ -27,9 +27,6 @@ namespace Aryzon
 
 		private bool reticleEnabled;
 
-		//public Transform eyes;
-		//public Camera stereoCamera;
-
 		public bool setAryzonModeOnStart;
 		public bool aryzonMode;
 		public bool stereoscopicMode;
@@ -139,8 +136,6 @@ namespace Aryzon
 		private int screenWidth = 0;
 		private int sleepTimeOut;
 
-		private AryzonCardboardSubsystemLoader subsystemLoader = new AryzonCardboardSubsystemLoader();
-
 		private AryzonCameraHandler _cameraHandler;
 		private AryzonCameraHandler cameraHandler
 		{
@@ -165,42 +160,12 @@ namespace Aryzon
 				aryzonMainPoseDriver.editorPoseProviderTransform = editorPoseProvider.transform;
 			}
 #endif
-
-            AryzonSettings.Instance.UpdateLayout += UpdateLayout;
-		}
-
-        private void OnDisable()
-        {
-			if (AryzonSettings.Instance)
-			{
-				AryzonSettings.Instance.UpdateLayout -= UpdateLayout;
-			}
-		}
-
-        private void UpdateLayout()
-        {
-            if (cameraHandler != null)
-            {
-				cameraHandler.UpdateCameraProjection();
-            }
 		}
 
 		private void ConnectObjects()
 		{
-
 			if (!objectsConnected)
 			{
-				//Transform cameraTransform = transform.Find("Eyes");
-				//Transform reticleTransform = transform.Find("Eyes/Reticle/Dot");
-
-				/*if (cameraTransform)
-				{
-					cameraObject = cameraTransform.gameObject;
-				}
-
-				eyes = cameraTransform;
-				stereoCamera = eyes.GetComponent<Camera>();*/
-
 				reticleEnabled = false;
 				objectsConnected = true;
 			}
@@ -233,19 +198,22 @@ namespace Aryzon
             {
 				CheckAspectRatio();
 				screenWidth = Screen.width;
-				subsystemLoader.ReloadDeviceParams();
+				AryzonCardboardSubsystemLoader.ReloadDeviceParams();
 
 			}
-			subsystemLoader.UpdateCardboard();
+			AryzonCardboardSubsystemLoader.UpdateCardboard();
 
 #if UNITY_IOS
-			if (timer > 5f)
-			{
-				float randomFactor = UnityEngine.Random.Range(0.0f, 0.05f);
-				SetScreenBrightness(0.85f + randomFactor);
-				timer = 0f;
+			if (stereoscopicMode && aryzonMode)
+            {
+				if (timer > 5f)
+				{
+					float randomFactor = UnityEngine.Random.Range(0.0f, 0.02f);
+					SetScreenBrightness(0.93f + randomFactor);
+					timer = 0f;
+				}
+				timer += Time.deltaTime;
 			}
-			timer += Time.deltaTime;
 #endif
 
 #if UNITY_EDITOR
@@ -260,7 +228,7 @@ namespace Aryzon
 				StopAryzonMode();
 			}
 #endif
-		}
+	}
 
 		private void LateUpdate()
 		{
@@ -285,7 +253,6 @@ namespace Aryzon
 			if (!aryzonMode)
 			{
 				AryzonSettings.Instance.AryzonMode = true;
-				//AryzonSettings.Instance.reticleCamera = stereoCamera;
 				AryzonSettings.Instance.aryzonManager = this;
 
 				if (!Application.isEditor)
@@ -465,12 +432,12 @@ namespace Aryzon
 		{
 			Debug.Log("[Aryzon] Entering stereoscopic mode");
 
-			subsystemLoader.StartCardboard();
+			AryzonCardboardSubsystemLoader.StartCardboard();
 
 			sleepTimeOut = Screen.sleepTimeout;
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-			SetScreenBrightness(0.9f); //slightly less then 1 to reduce heat
+			SetScreenBrightness(0.95f); //slightly less then 1 to reduce heat
 #if UNITY_IOS && !UNITY_EDITOR
 			timer = 0f;
 #endif
@@ -495,8 +462,8 @@ namespace Aryzon
 			landscapeMode = false;
 
 			AryzonSettings.Instance.PortraitMode = true;
-			
-			subsystemLoader.StopCardboard();
+
+			AryzonCardboardSubsystemLoader.StopCardboard();
 			cameraHandler.ResetCameras();
 			aryzonMainPoseDriver.Disable();
 

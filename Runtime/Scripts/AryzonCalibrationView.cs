@@ -15,7 +15,12 @@ namespace Aryzon
 
         private void UpdateValues()
         {
-            values.text = (AryzonSettings.Calibration.XShift*100).ToString("0.#") + "\n" + (AryzonSettings.Calibration.YShift * 100).ToString("0.#") + "\n" + (AryzonSettings.Headset.eyeToLens * 100).ToString("0.#") + "\n" + (AryzonSettings.Calibration.IPD * 100).ToString("0.#");
+            values.text = (AryzonSettings.Calibration.XShift*100).ToString("0.##")
+                + "\n" + (AryzonSettings.Calibration.YShift * 100).ToString("0.##")
+                + "\n" + (AryzonSettings.Headset.eyeToLens * 100).ToString("0.##")
+                + "\n" + (AryzonSettings.Calibration.IPD * 100).ToString("0.##")
+                + "\n" + (AryzonSettings.Calibration.ILD * 100).ToString("0.##");
+            SavePressed();
         }
 
         private void OnEnable()
@@ -42,7 +47,7 @@ namespace Aryzon
 
         public void UpPressed()
         {
-            AryzonSettings.Calibration.YShift -= 0.005f;
+            AryzonSettings.Calibration.YShift -= 0.01f;
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
@@ -50,7 +55,7 @@ namespace Aryzon
 
         public void DownPressed()
         {
-            AryzonSettings.Calibration.YShift += 0.005f;
+            AryzonSettings.Calibration.YShift += 0.01f;
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
@@ -58,7 +63,7 @@ namespace Aryzon
 
         public void RightPressed()
         {
-            AryzonSettings.Calibration.XShift -= 0.005f;
+            AryzonSettings.Calibration.XShift -= 0.01f;
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
@@ -66,7 +71,7 @@ namespace Aryzon
 
         public void LeftPressed()
         {
-            AryzonSettings.Calibration.XShift += 0.005f;
+            AryzonSettings.Calibration.XShift += 0.01f;
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
@@ -78,6 +83,7 @@ namespace Aryzon
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
+            AryzonCardboardSubsystemLoader.ReloadDeviceParams();
         }
 
         public void SmallerIPDPressed()
@@ -86,9 +92,28 @@ namespace Aryzon
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
+            AryzonCardboardSubsystemLoader.ReloadDeviceParams();
         }
 
-        public void WiderScreenPressed()
+        public void WiderILDPressed()
+        {
+            AryzonSettings.Calibration.ILD += 0.0005f;
+            AryzonSettings.Instance.Apply();
+            hasChanges = true;
+            UpdateValues();
+            AryzonCardboardSubsystemLoader.ReloadDeviceParams();
+        }
+
+        public void SmallerILDPressed()
+        {
+            AryzonSettings.Calibration.ILD -= 0.0005f;
+            AryzonSettings.Instance.Apply();
+            hasChanges = true;
+            UpdateValues();
+            AryzonCardboardSubsystemLoader.ReloadDeviceParams();
+        }
+
+        public void FurtherAwayPressed()
         {
             AryzonSettings.Headset.eyeToLens += 0.01f;
             AryzonSettings.Instance.Apply();
@@ -96,7 +121,7 @@ namespace Aryzon
             UpdateValues();
         }
 
-        public void SmallerScreenPressed()
+        public void CloserByPressed()
         {
             AryzonSettings.Headset.eyeToLens -= 0.01f;
             AryzonSettings.Instance.Apply();

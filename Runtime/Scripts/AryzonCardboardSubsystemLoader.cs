@@ -26,14 +26,14 @@ namespace Aryzon
             set { _displayPointer = value; }
         }
 
-        private XRLoader loader;
+        private static XRLoader loader;
 
         public static bool isInitialized = false;
         public static bool isStarted = false;
 
-        private string inputMatch = "Input";
+        private static string inputMatch = "Input";
 
-        public void StartCardboard()
+        public static void StartCardboard()
         {
             if (!loader)
             {
@@ -56,7 +56,7 @@ namespace Aryzon
             }
         }
 
-        public void StopCardboard()
+        public static void StopCardboard()
         {
             if (loader)
             {
@@ -66,16 +66,28 @@ namespace Aryzon
             isStarted = false;
         }
 
-        public void ReloadDeviceParams()
+        public static void ReloadDeviceParams()
         {
             if (!isStarted)
             {
                 return;
             }
+            if (!String.IsNullOrWhiteSpace(AryzonSettings.Headset.url))
+            {
+                Api.SetDeviceParamsURL(AryzonSettings.Headset.url);
+            }
+            if (AryzonSettings.Calibration.manualILD)
+            {
+                Api.SetInterLensDistance(AryzonSettings.Calibration.ILD);
+            }
+            if (AryzonSettings.Calibration.manualIPD)
+            {
+                Api.SetInterpupillaryDistance(AryzonSettings.Calibration.IPD);
+            }
             Api.ReloadDeviceParams();
         }
 
-        public void UpdateCardboard()
+        public static void UpdateCardboard()
         {
             if (!isStarted)
             {
@@ -101,7 +113,7 @@ namespace Aryzon
             Api.UpdateScreenParams();
         }
 
-        private void ConnectCardboardInputSystem()
+        private static void ConnectCardboardInputSystem()
         {
             List<XRInputSubsystemDescriptor> inputs = new List<XRInputSubsystemDescriptor>();
             SubsystemManager.GetSubsystemDescriptors(inputs);

@@ -81,7 +81,6 @@ namespace Aryzon
         public void StopAryzonMode()
         {
             AryzonSettings.Instance.aryzonManager.StopAryzonMode();
-            Debug.Log("Stop!");
         }
 
         public void OnStopStereoscopicMode(AryzonModeEventArgs e)

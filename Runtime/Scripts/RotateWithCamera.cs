@@ -17,8 +17,6 @@ namespace Aryzon
         [Tooltip("Angular speed in radians per second.")]
         public float speed;
 
-        private AryzonPose currentPose;
-
         private void OnEnable()
         {
             StartCoroutine(StartWhenReady());
@@ -35,11 +33,10 @@ namespace Aryzon
 
         public void UpdatePose(AryzonPose pose)
         {
-            currentPose = pose;
             if (rotate)
             {
                 float fromRotation = gameObject.transform.rotation.eulerAngles.y;
-                float toRotation = currentPose.rotation.eulerAngles.y;
+                float toRotation = pose.rotation.eulerAngles.y;
                 float deltaRotation = toRotation - fromRotation;
 
                 if (deltaRotation > _maxRotationY)
@@ -53,9 +50,12 @@ namespace Aryzon
 
                 float minAngle = _minimumAngleY;
 
-                if (Mathf.Abs(deltaRotation) > minAngle || rotating)
+                if (!rotating && Mathf.Abs(deltaRotation) > minAngle)
                 {
                     rotating = true;
+                } else if (rotating)
+                {
+                    // Using else if here to make rotation start in the next frame to solve a glitch when rotation changes a lot for only a single frame.
                     float newRotation = fromRotation + deltaRotation / 20f;
                     gameObject.transform.rotation = Quaternion.Euler(new Vector3(gameObject.transform.rotation.eulerAngles.x, newRotation, gameObject.transform.rotation.eulerAngles.z));
                     if (Mathf.Abs(deltaRotation) < 1f)
@@ -63,7 +63,7 @@ namespace Aryzon
                         rotating = false;
                     }
                 }
-                gameObject.transform.position = currentPose.position;
+                gameObject.transform.position = pose.position;
             }
         }
 

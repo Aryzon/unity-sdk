@@ -17,28 +17,9 @@ namespace Aryzon
 {
     public class AryzonCameraHandler
     {
-        //[DllImport(Constants.CardboardApi)]
-        //private static extern void CardboardUnity_SetStereoSeparation(IntPtr ptr, float separation);
-
         private List<SavedCameraSettings> savedCameraSettings = new List<SavedCameraSettings>();
         private List<MonoBehaviour> cameraBackgroundComponents = new List<MonoBehaviour>();
         private List<GameObject> cameraBackgroundObjects = new List<GameObject>();
-
-        public void UpdateCameraProjection()
-        {
-            foreach (Camera cam in Camera.allCameras)
-            {
-                if (cam.stereoTargetEye == StereoTargetEyeMask.Both)
-                {
-                    cam.stereoSeparation = AryzonSettings.Calibration.IPD;
-//#if !UNITY_EDITOR
-//                    CardboardUnity_SetStereoSeparation(AryzonCardboardSubsystemLoader.displayPointer, AryzonSettings.Calibration.IPD);
-//                    Api.ReloadDeviceParams();
-//#endif
-                    
-                }
-            }
-        }
 
         public void UpdateCamerasForStereoscopicMode()
         {

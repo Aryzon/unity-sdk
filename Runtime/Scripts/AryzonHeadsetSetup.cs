@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 using Aryzon;
 using System.Text;
 
+using Google.XR.Cardboard;
+
 public class AryzonHeadsetSetup : MonoBehaviour
 {
     public Dropdown headsetSelectDropdown;
@@ -15,6 +17,51 @@ public class AryzonHeadsetSetup : MonoBehaviour
     private HeadsetDatas headsets = new HeadsetDatas();
 
     private bool changeCameFromSelf = false;
+
+    public void ScanQRCode()
+    {
+        AryzonCardboardSubsystemLoader.StartCardboard();
+        StartCoroutine(StopCardboardWhenDone());
+        Api.ScanDeviceParams();
+    }
+
+    IEnumerator StopCardboardWhenDone()
+    {
+        int startCount = Api.GetQrCodeScanCount();
+        float timer = 60f; // Allow one minute for scanning the QR code
+        while (timer > 0)
+        {
+            if (startCount != Api.GetQrCodeScanCount())
+            {
+                timer = -1f;
+            }
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (Api.HasDeviceParams())
+        {
+            String model = Api.GetDeviceModel();
+
+            int selectionIndex = -1;
+            int i = 0;
+            foreach (HeadsetData headsetData in headsets.headsetDatas)
+            {
+                if (headsetData.name == model)
+                {
+                    selectionIndex = i;
+                }
+                i++;
+            }
+            if (selectionIndex != headsetSelectDropdown.value)
+            {
+                AryzonSettings.Calibration.manualILD = false;
+            }
+
+            headsetSelectDropdown.value = selectionIndex;
+        }
+        AryzonCardboardSubsystemLoader.StopCardboard();
+    }
 
     public void ShowCalibrationToggleChanged()
     {
@@ -34,7 +81,7 @@ public class AryzonHeadsetSetup : MonoBehaviour
         Dropdown.OptionData optionData = new Dropdown.OptionData(AryzonSettings.Headset.name);
         headsetSelectDropdown.options.Add(optionData);
 
-        headsetSelectDropdown.value = 0;
+        headsetSelectDropdown.value = -1;
 
         StartCoroutine(RetrieveHeadsetsRoutine());
     }
@@ -65,6 +112,7 @@ public class AryzonHeadsetSetup : MonoBehaviour
                 headsetSelectDropdown.options.Clear();
                 int selectionIndex = -1;
                 int i = 0;
+
                 foreach (HeadsetData headsetData in headsets.headsetDatas)
                 {
                     Dropdown.OptionData optionData = new Dropdown.OptionData(headsetData.name);
@@ -96,6 +144,7 @@ public class AryzonHeadsetSetup : MonoBehaviour
     {
         statusText.text = status;
         AryzonSettings.Instance.SettingsRetrieved -= HeadsetSettingsRetrieved;
+        AryzonSettings.Calibration.manualILD = false;
     }
 
     private void OnEnable()

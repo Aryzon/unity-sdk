@@ -14,6 +14,13 @@ namespace Aryzon {
             set { _applyHeadModel = value; }
         }
 
+        [SerializeField] private bool _applyRotationModel = true;
+        public bool applyRotationModel
+        {
+            get { return _applyRotationModel; }
+            set { _applyRotationModel = value; }
+        }
+
         private Vector3 headModel;
 
         private void OnEnable()
@@ -46,6 +53,9 @@ namespace Aryzon {
             if (applyHeadModel)
             {
                 transform.localPosition = transform.TransformPoint(headModel);
+            }
+            if (applyRotationModel)
+            {
                 transform.Rotate(Vector3.right, AryzonSettings.Headset.xRotation);
             }
         }

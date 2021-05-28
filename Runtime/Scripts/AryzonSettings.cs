@@ -211,13 +211,21 @@ namespace Aryzon {
                 set { myShift = value; manualyShift = true; }
             }
             public static bool manualIPD = false;
-            public static float mIPD = 0.064f;
-            public static float ipd = 0.064f;
+            public static float mIPD = Headset.lensCenterDistance;
             public static float IPD
             {
-                get { if (manualIPD) { return mIPD; } return ipd; }
+                get { if (manualIPD) { return mIPD; } return Headset.lensCenterDistance; }
                 set { mIPD = value; manualIPD = true; }
             }
+
+            public static bool manualILD = false;
+            public static float mILD = Headset.lensCenterDistance;
+            public static float ILD
+            {
+                get { if (manualILD) { return mILD; } return Headset.lensCenterDistance; }
+                set { mILD = value; manualILD = true; }
+            }
+
             public static bool rotatedSensor = false;
             public static bool showCalibrate = false;
 
@@ -270,6 +278,7 @@ namespace Aryzon {
 
         public static class Headset {
             public static string name = "Aryzon";
+            public static string url = "https://google.com/cardboard/cfg?p=CgZBcnl6b24SCUFyeXpvbiB2Mx1cj8I9JY_CdT0qEAAASEIAAEhCAABIQgAASEJYAjUCKwc9OgjNzMy9CtcjvFAAYAA";
             public static float xShift = 0f;
             public static float yShift = 0.03f;
             public static float distortion = 0f;
@@ -401,9 +410,9 @@ namespace Aryzon {
                             }
 
                             AryzonSettings.Calibration.rotatedSensor = data.rotatedSensor;
-                            AryzonSettings.Calibration.xShift = data.xShift;
-                            AryzonSettings.Calibration.yShift = data.yShift;
-                            AryzonSettings.Calibration.ipd = data.IPD;
+                            AryzonSettings.Calibration.XShift = data.xShift;
+                            AryzonSettings.Calibration.YShift = data.yShift;
+                            AryzonSettings.Calibration.IPD = data.IPD;
                             AryzonSettings.Calibration.didCalibrate = true;
 
                             AryzonSettings.Instance.Apply();
@@ -461,6 +470,8 @@ namespace Aryzon {
                         AryzonSettings.Headset.bottomToCenter = data.bottomToCenter;
                         AryzonSettings.Headset.fovFactor = data.fovFactor;
                         AryzonSettings.Headset.xRotation = data.xRotation;
+                        AryzonSettings.Headset.url = data.url;
+
                         if (aryzonManager && !aryzonManager.stereoscopicMode && aryzonManager.aryzonMode && AryzonSettings.Headset.landscapeLeft != data.landscapeLeft)
                         {
                             AryzonSettings.Headset.landscapeLeft = data.landscapeLeft;
@@ -625,6 +636,7 @@ namespace Aryzon {
     class HeadsetData
     {
         public string name = "Aryzon";
+        public string url = "https://google.com/cardboard/cfg?p=CgZBcnl6b24SCUFyeXpvbiB2Mx1cj8I9JY_CdT0qEAAASEIAAEhCAABIQgAASEJYAjUCKwc9OgjNzMy9CtcjvFAAYAA";
         public float xShift = 0f;
         public float yShift = 0f;
         public float distortion = 0f;

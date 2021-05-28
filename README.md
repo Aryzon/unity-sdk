@@ -15,16 +15,16 @@ Navigate to **Window -> Package Manager**.
 #### Android Specific:
 Follow the official Google Cardboard SDK steps under [**Other Settings**](https://developers.google.com/cardboard/develop/unity/quickstart#other_settings) and [**Publishing Settings**](https://developers.google.com/cardboard/develop/unity/quickstart#publishing_settings). **DO NOT follow any other instructions that are there.**
 
-### 3DoF tracking
-Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow these instructions to get rotational tracking only:
+### Choice of tracking
+* Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow the 3DoF instructions to get rotational tracking only.
+* Use 6 degrees of freedom tracking when the user should be able to walk around. Follow the 6DoF steps to get rotational and positional tracking.
 
+### 3DoF tracking
 4. In **Player Settings -> Other Settings** add this to the **Camera Usage Description**:<br>`Cardboard SDK requires camera permission to read the QR code (required to get the encoded device parameters).`
 5. Open the Rotational Tracking scene in Assets -> Samples.
 6. You can now build and run this scene.
 
-### 6DoF Room scale tracking
-Use 6 degrees of freedom tracking when the user should be able to walk around. Follow these steps to get 6DoF tracking:
-
+### 6DoF tracking
 4. Add **ARFoundation** through the package manager from the **Unity Registry**.
 5. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms. This should automatically install the package from the package manager for you.<br>**Important: DO NOT select Cardboard**.
 6. In **Player Settings -> Other Settings** add this to the **Camera Usage Description**:<br>`Camera usage is required for AR and the Cardboard SDK requires camera permission to read a QR code (required to get the encoded device parameters).`

@@ -3,7 +3,7 @@
 1. In the Unity package manager choose to add a package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/cardboard-xr-plugin.git`<br>*You do not have to import the samples.*
 2. a. In the Unity package manager choose to add another package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/unity-sdk.git`<br>
 b. Import the samples from this package.
-3. For Android [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#player_settings), for iOS [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#player_settings_2)<br>**Important: skip the Resolution and Presentation step. Choosing Autorotate or Portrait is fine. Hold out on building the project.**
+3. **Important: skip the Resolution and Presentation step. Choosing Autorotate or Portrait is fine. Hold out on building the project.**<br>For Android [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#player_settings), for iOS [follow the instructions here](https://developers.google.com/cardboard/develop/unity/quickstart#player_settings_2)
 
 ### 3DoF tracking
 Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow these instructions to get rotational tracking only:

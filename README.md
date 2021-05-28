@@ -18,3 +18,5 @@ Use 6 degrees of freedom tracking when the user should be able to walk around. F
 5. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms.<br>**Important: deselect Cardboard**. This will automatically install the package from the package manager for you.
 6. Find the ARFoundation Tracking scene in Assets -> Samples.
 7. You can now build and run this scene.
+
+Note: ARSession has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for Aryzon headsets. Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.

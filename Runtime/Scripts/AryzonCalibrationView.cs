@@ -15,18 +15,22 @@ namespace Aryzon
 
         private void UpdateValues()
         {
-            values.text = (AryzonSettings.Calibration.XShift*100).ToString("0.##")
+            UpdateText();
+            SavePressed();
+        }
+
+        private void UpdateText()
+        {
+            values.text = (AryzonSettings.Calibration.XShift * 100).ToString("0.##")
                 + "\n" + (AryzonSettings.Calibration.YShift * 100).ToString("0.##")
-                + "\n" + (AryzonSettings.Headset.eyeToLens * 100).ToString("0.##")
+                + "\n" + (AryzonSettings.Calibration.EyeToLens * 100).ToString("0.##")
                 + "\n" + (AryzonSettings.Calibration.IPD * 100).ToString("0.##")
                 + "\n" + (AryzonSettings.Calibration.ILD * 100).ToString("0.##");
-            SavePressed();
         }
 
         private void OnEnable()
         {
             AryzonSettings.Instance.RegisterEventHandler(this);
-            UpdateValues();
         }
 
         private void OnDisable()
@@ -115,7 +119,7 @@ namespace Aryzon
 
         public void FurtherAwayPressed()
         {
-            AryzonSettings.Headset.eyeToLens += 0.01f;
+            AryzonSettings.Calibration.EyeToLens += 0.01f;
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
@@ -123,7 +127,7 @@ namespace Aryzon
 
         public void CloserByPressed()
         {
-            AryzonSettings.Headset.eyeToLens -= 0.01f;
+            AryzonSettings.Calibration.EyeToLens -= 0.01f;
             AryzonSettings.Instance.Apply();
             hasChanges = true;
             UpdateValues();
@@ -139,6 +143,7 @@ namespace Aryzon
             if (AryzonSettings.Calibration.showCalibrate) {
                 calibrationCanvas.worldCamera = AryzonSettings.Instance.aryzonManager.XRCamera;
                 calibrationCanvas.gameObject.SetActive(true);
+                UpdateText();
             }
         }
 

@@ -38,7 +38,6 @@ namespace Aryzon {
         public bool PortraitMode = false;
         public bool ShowReticle = false;
 
-        //public Camera reticleCamera;
         public AryzonManager aryzonManager;
         public GameObject aryzonInputController;
 
@@ -118,7 +117,6 @@ namespace Aryzon {
             get
             {
                 if (applicationIsQuitting) {
-                    //Debug.LogWarning("[Aryzon] Instance '"+ typeof(AryzonSettings) + "' already destroyed on application quit." + " Won't create again - returning null.");
                     return null;
                 }
 
@@ -130,17 +128,17 @@ namespace Aryzon {
 
                         if ( FindObjectsOfType(typeof(AryzonSettings)).Length > 1 )
                         {
-                            Debug.LogError("[Aryzon] there should never be more than 1 AryzonManager");
+                            Debug.LogError("[Aryzon] there should never be more than 1 AryzonSettings");
                             return _instance;
                         }
 
                         if (_instance == null)
                         {
-                            GameObject aryzonManager = new GameObject();
-                            _instance = aryzonManager.AddComponent<AryzonSettings>();
-                            aryzonManager.name = "AryzonManager";
-
-                            DontDestroyOnLoad(aryzonManager);
+                            GameObject aryzonSettings = new GameObject();
+                            _instance = aryzonSettings.AddComponent<AryzonSettings>();
+                            aryzonSettings.name = "AryzonSettings";
+                            _instance.Initialize();
+                            DontDestroyOnLoad(aryzonSettings);
                         } else {
                             Debug.Log("[Aryzon] Using instance already created: " +
                                       _instance.gameObject.name);
@@ -189,26 +187,37 @@ namespace Aryzon {
 
         public void OnDestroy () {
             applicationIsQuitting = true;
+            Save();
         }
 
         public static class Calibration {
             public static bool didCalibrate = false;
             public static bool skipCalibrate = false;
+
             public static bool manualxShift = false;
-            public static float mxShift = 0.03f;
-            public static float xShift = 0.03f;
+            public static float mxShift = Phone.xShift;
             public static float XShift
             {
-                get { if (manualxShift) { return mxShift; } return xShift; }
-                set { mxShift = value; manualxShift = true; }
+                get {int m = 1;
+                    if (!Headset.landscapeLeft) {m = -1;}
+                    if (manualxShift) { return m * mxShift; } return m * Phone.xShift;}
+                set {
+                    int m = 1;
+                    if (!Headset.landscapeLeft) { m = -1; }
+                    mxShift = m * value; manualxShift = true; }
             }
             public static bool manualyShift = false;
-            public static float myShift = -0.105f;
-            public static float yShift = -0.105f;
+            public static float myShift = Phone.yShift;
             public static float YShift
             {
-                get { if (manualyShift) { return myShift; } return yShift; }
-                set { myShift = value; manualyShift = true; }
+                get {int m = 1;
+                    float p = 0f; // Adjust for phone height when in landscape right
+                    if (!Headset.landscapeLeft) { m = -1; p = 0.07f; }
+                    if (manualyShift) { return m * (myShift + p); } return m * (Phone.yShift + p); }
+                set {int m = 1;
+                    float p = 0f; // Adjust for phone height when in landscape right
+                    if (!Headset.landscapeLeft) { m = -1; p = 0.07f; }
+                    myShift = m * (value + p); manualyShift = true; }
             }
             public static bool manualIPD = false;
             public static float mIPD = Headset.lensCenterDistance;
@@ -226,27 +235,27 @@ namespace Aryzon {
                 set { mILD = value; manualILD = true; }
             }
 
+            public static bool manualEyeToLens = false;
+            public static float mEyeToLens = Headset.lensCenterDistance;
+            public static float EyeToLens
+            {
+                get { if (manualEyeToLens) { return mEyeToLens; } return Headset.eyeToLens; }
+                set { mEyeToLens = value; manualEyeToLens = true; }
+            }
+
             public static bool rotatedSensor = false;
             public static bool showCalibrate = false;
 
             static Calibration() {
-                Debug.Log("Load");
-                if (SerializeStatic.Load(typeof(Calibration), Application.persistentDataPath + "/AryzonCalibrationSettings.bfd")) {
+                if (SerializeStatic.Load(typeof(Calibration), Application.persistentDataPath + "/AryzonCalibrationSettings.bfd"))
+                {
                     AryzonSettings.Instance.Apply();
-                } else
-                { // The file does not exist or is corrupted, create a new one and try again
-                    Debug.Log("NotOKLoad");
-                    AryzonSettings.Instance.SaveCalibration();
-                    if (SerializeStatic.Load(typeof(Calibration), Application.persistentDataPath + "/AryzonCalibrationSettings.bfd"))
-                    {
-                        AryzonSettings.Instance.Apply();
-                    }
                 }
             }
         }
 
         public void Initialize () {
-            if (!Calibration.didCalibrate && !Phone.aryzonCalibrated) {
+            if (!Phone.aryzonCalibrated) {
                 RetrieveSettingsForPhone ();
             }
         }
@@ -409,10 +418,14 @@ namespace Aryzon {
                                 aryzonManager.SetRotationLandscapeAndPortrait();
                             }
 
+                            AryzonSettings.Calibration.mEyeToLens = data.eyeToLens;
+                            AryzonSettings.Calibration.manualEyeToLens = false;
+
                             AryzonSettings.Calibration.rotatedSensor = data.rotatedSensor;
-                            AryzonSettings.Calibration.XShift = data.xShift;
-                            AryzonSettings.Calibration.YShift = data.yShift;
-                            AryzonSettings.Calibration.IPD = data.IPD;
+
+                            AryzonSettings.Calibration.mIPD = data.IPD;
+                            AryzonSettings.Calibration.manualIPD = false;
+
                             AryzonSettings.Calibration.didCalibrate = true;
 
                             AryzonSettings.Instance.Apply();
@@ -478,6 +491,12 @@ namespace Aryzon {
                             aryzonManager.SetRotationLandscapeAndPortrait();
                         }
 
+                        AryzonSettings.Calibration.mEyeToLens = data.eyeToLens;
+                        AryzonSettings.Calibration.manualEyeToLens = false;
+
+                        AryzonSettings.Calibration.mILD = data.lensCenterDistance;
+                        AryzonSettings.Calibration.manualILD = false;
+
                         AryzonSettings.Instance.Apply();
                         AryzonSettings.Instance.Save();
                         success = true;
@@ -526,7 +545,8 @@ namespace Aryzon {
                         AryzonSettings.Phone.aryzonCalibrated = data.aryzonCalibrated;
 
                         AryzonSettings.Instance.Apply();
-                        AryzonSettings.Instance.Save();
+                        //AryzonSettings.Instance.Save();
+
                         success = true;
                         returnString = "Successfully retrieved settings for your phone!";
                     }
@@ -601,6 +621,11 @@ namespace Aryzon {
             catch (SerializationException e)
             {
                 Debug.LogWarning ("[Aryzon] " + e);
+                return false;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("[Aryzon] " + e);
                 return false;
             }
         }

@@ -32,3 +32,18 @@ Follow the official Google Cardboard SDK steps under [**Other Settings**](https:
 8. You can now build and run this scene.
 
 Note: ARSession has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
+
+## Calibration
+Mixed reality usually requires some form of interaction or alignment with the physical world. In order to get good optical results the SDK has a calibration view to align the virtual and physical world. You can enable this in Aryzon Mode. Go to **Settings** and select **Show calibration menu**.
+
+### The calibration settings
+**X:** Horizontal shift 
+**Y:** Vertical Shift
+**Z:** Forward Shift
+The settings above move the position of the virtual camera relative to the user. When changing these settings you will notice movement of virtual objects that are close by. Objects that are far away do not move as much.
+
+**IPD:** Interpupillary distance
+This setting is user dependent, it is the distance between the pupils in the eyes of the user. The virtual camera renders two images from slightly different positions, depending on the IPD. Changing this setting has most effect on objects that are close by. It makes these objects appear closer by or farther away.
+
+**ILD:** Inter lens distance
+This setting changes how far apart the images are rendered on screen. It is different from IPD since this effects the entire image, not just the objects that are close by. It makes all objects appear closer by or farther away.

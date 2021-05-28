@@ -34,7 +34,7 @@ Follow the official Google Cardboard SDK steps under [**Other Settings**](https:
 Note: ARSession has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
 
 ## Calibration
-Mixed reality usually requires some form of interaction or alignment with the physical world. In order to get good optical results the SDK has a **calibration menu** to align the virtual and physical world. You can enable this in Aryzon Mode. Go to **Settings** and select **Show calibration menu**.
+Mixed reality usually requires some form of interaction or alignment with the physical world. In order to get good optical results the SDK has a **calibration menu** to align the virtual and physical world. You can enable this at runtime on the phone in Aryzon Mode. Go to **Settings** and select **Show calibration menu**.
 
 ### The calibration settings
 **X:** Horizontal shift<br>

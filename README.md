@@ -37,13 +37,13 @@ Note: ARSession has an option 'Match Frame Rate', by default this option is sele
 Mixed reality usually requires some form of interaction or alignment with the physical world. In order to get good optical results the SDK has a calibration view to align the virtual and physical world. You can enable this in Aryzon Mode. Go to **Settings** and select **Show calibration menu**.
 
 ### The calibration settings
-**X:** Horizontal shift 
-**Y:** Vertical Shift
-**Z:** Forward Shift
+**X:** Horizontal shift<br>
+**Y:** Vertical Shift<br>
+**Z:** Forward Shift<br>
 The settings above move the position of the virtual camera relative to the user. When changing these settings you will notice movement of virtual objects that are close by. Objects that are far away do not move as much.
 
-**IPD:** Interpupillary distance
+**IPD:** Interpupillary distance<br>
 This setting is user dependent, it is the distance between the pupils in the eyes of the user. The virtual camera renders two images from slightly different positions, depending on the IPD. Changing this setting has most effect on objects that are close by. It makes these objects appear closer by or farther away.
 
-**ILD:** Inter lens distance
+**ILD:** Inter lens distance<br>
 This setting changes how far apart the images are rendered on screen. It is different from IPD since this effects the entire image, not just the objects that are close by. It makes all objects appear closer by or farther away.

@@ -31,6 +31,13 @@ Follow the official Google Cardboard SDK steps under [**Other Settings**](https:
 7. Open the ARFoundation Tracking scene in Assets -> Samples.
 8. You can now build and run this scene.
 
+## Adding Aryzon support to an existing ARFoundation scene
+You can simply add Aryzon support to an existing ARFoundaiton scene like [one of the official samples](https://github.com/Unity-Technologies/arfoundation-samples). Do the following:
+* On the ARSession deselect 'Match Frame Rate'.
+* Add the Aryzon and AryzonInputController prefabs to the scene from `Packages -> Aryzon MR Headset Plugin -> Runtime -> Prefabs`.
+* Set `Application.targetFrameRate = 60` somewhere in Start() or Awake().
+* Make sure there is an EventSystem in the scene.
+
 Note: ARSession has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
 
 ## Calibration

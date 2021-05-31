@@ -21,24 +21,24 @@ Follow the official Google Cardboard SDK steps under [**Other Settings**](https:
 
 ### 3DoF tracking
 4. In **Player Settings -> Other Settings** add this to the **Camera Usage Description**:<br>`Cardboard SDK requires camera permission to read the QR code (required to get the encoded device parameters).`
-5. Open the Rotational Tracking scene in Assets -> Samples.
+5. Open the Rotational Tracking scene in **Assets -> Samples**.
 6. You can now build and run this scene.
 
 ### 6DoF tracking
 4. Add **ARFoundation** through the package manager from the **Unity Registry**. Make sure to use ARFoundation 3.0 or newer otherwise the ARPoseDriver cannot be found.
 5. In the player settings head over to XR Plugin Management, select ARKit or ARCore according to your target platforms. This should automatically install the package from the package manager for you.<br>**Important: DO NOT select Cardboard**.
 6. In **Player Settings -> Other Settings** add this to the **Camera Usage Description**:<br>`Camera usage is required for AR and the Cardboard SDK requires camera permission to read a QR code (required to get the encoded device parameters).`
-7. Open the ARFoundation Tracking scene in Assets -> Samples.
+7. Open the ARFoundation Tracking scene in **Assets -> Samples**.
 8. You can now build and run this scene.
 
 ## Adding Aryzon support to an existing scene
 You can simply add Aryzon support to an existing ARFoundation scene like [one of the official samples](https://github.com/Unity-Technologies/arfoundation-samples) or any other scene. Do the following:
-* Add the Aryzon and AryzonInputController prefabs to the scene from `Packages -> Aryzon MR Headset Plugin -> Runtime -> Prefabs`.
+* Add the **Aryzon** and **AryzonInputController** prefabs to the scene from **Packages -> Aryzon MR Headset Plugin -> Runtime -> Prefabs**.
 * Set `Application.targetFrameRate = 60` somewhere in Start() or Awake().
-* Make sure there is an EventSystem in the scene.
-* ARFoundation only: on the ARSession deselect 'Match Frame Rate'.
+* Make sure there is an **EventSystem** in the scene.
+* ARFoundation only: on the **ARSession** deselect 'Match Frame Rate'.
 
-Note: ARSession has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
+Note: **ARSession** has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
 
 ## Calibration
 Mixed reality usually requires some form of interaction or alignment with the physical world. In order to get good optical results the SDK has a **calibration menu** to align the virtual and physical world. You can enable this at runtime on the phone in Aryzon Mode. Go to **Settings** and select **Show calibration menu**.

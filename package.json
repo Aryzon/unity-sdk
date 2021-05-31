@@ -1,7 +1,7 @@
 {
     "name": "com.aryzon.unity-sdk",
     "displayName": "Aryzon MR Headset Plugin",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "unity": "2019.3",
     "description": "Provides UI, user input (reticle) and controller support for Aryzon XR experiences. It is recommended to combine this with the Aryzon fork of the Google Cardboard SDK found here: https://github.com/Aryzon/cardboard-xr-plugin/.",
     "keywords": [

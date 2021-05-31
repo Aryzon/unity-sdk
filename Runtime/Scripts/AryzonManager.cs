@@ -433,7 +433,7 @@ namespace Aryzon
 			Debug.Log("[Aryzon] Entering stereoscopic mode");
 
 			AryzonCardboardSubsystemLoader.StartCardboard();
-
+			Application.targetFrameRate = 60;
 			sleepTimeOut = Screen.sleepTimeout;
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 

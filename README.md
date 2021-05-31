@@ -9,7 +9,7 @@ Start by opening a new Unity project.
 ### Add the packages
 Navigate to **Window -> Package Manager**.
 1. Choose to add the **Google Cardboard XR Plugin with 6DoF support** package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/cardboard-xr-plugin.git`<br>*This is based on [our fork](https://github.com/Aryzon/cardboard) from the [Google Cardboard SDK](https://github.com/googlevr/cardboard). You do not have to import the samples from this package.*
-2. Add the **Aryzon MR Headset Unity SDK** package from this Git URL:<br>`https://github.com/Aryzon/unity-sdk.git`.
+2. Add the **Aryzon MR Headset Unity SDK** package from this Git URL:<br>`https://github.com/Aryzon/unity-sdk.git`
 3. Import the samples from the **Aryzon MR Headset Unity SDK** package. (Unfold **Samples -> Import**).
 
 #### Android Specific:
@@ -36,7 +36,8 @@ You can simply add Aryzon support to an existing ARFoundation scene like [one of
 * Add the **Aryzon** and **AryzonInputController** prefabs to the scene from **Packages -> Aryzon MR Headset Plugin -> Runtime -> Prefabs**.
 * Set `Application.targetFrameRate = 60` somewhere in Start() or Awake().
 * Make sure there is an **EventSystem** in the scene.
-* ARFoundation only: on the **ARSession** deselect 'Match Frame Rate'.
+* ARFoundation only: on the **Aryzon** GameObject set 'ARFoundation' as the tracking engine.
+* ARFoundation only: on the **ARSession** GameObject deselect 'Match Frame Rate'.
 
 Note: **ARSession** has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
 

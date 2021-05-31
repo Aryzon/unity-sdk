@@ -37,12 +37,15 @@ namespace Aryzon {
             AryzonSettings.Instance.aryzonManager.PoseUpdate += UpdatePose;
             AryzonSettings.Instance.UpdateLayout += UpdateLayout;
 
-            headModel = new Vector3(AryzonSettings.Calibration.XShift, AryzonSettings.Calibration.YShift, -AryzonSettings.Calibration.EyeToLens);
+            UpdateLayout();
         }
 
         private void UpdateLayout()
         {
-             headModel = new Vector3(AryzonSettings.Calibration.XShift, AryzonSettings.Calibration.YShift, -AryzonSettings.Calibration.EyeToLens);
+            int m = 1;
+            if (!AryzonSettings.Headset.landscapeLeft) { m = -1; }
+
+            headModel = new Vector3(AryzonSettings.Calibration.XShift + m * (AryzonSettings.Phone.xShift + 0.04f), AryzonSettings.Calibration.YShift + m * (AryzonSettings.Phone.yShift - 0.03f), -AryzonSettings.Calibration.EyeToLens);
         }
 
         public void UpdatePose(AryzonPose pose)

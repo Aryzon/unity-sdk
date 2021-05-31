@@ -195,35 +195,35 @@ namespace Aryzon {
             public static bool skipCalibrate = false;
 
             public static bool manualxShift = false;
-            public static float mxShift = Phone.xShift;
+            public static float mxShift = 0;
             public static float XShift
             {
                 get {int m = 1;
                     if (!Headset.landscapeLeft) {m = -1;}
-                    if (manualxShift) { return m * mxShift; } return m * Phone.xShift;}
+                    if (manualxShift) { return m * mxShift; } return 0;}
                 set {
                     int m = 1;
                     if (!Headset.landscapeLeft) { m = -1; }
                     mxShift = m * value; manualxShift = true; }
             }
             public static bool manualyShift = false;
-            public static float myShift = Phone.yShift;
+            public static float myShift = 0;
             public static float YShift
             {
                 get {int m = 1;
                     float p = 0f; // Adjust for phone height when in landscape right
                     if (!Headset.landscapeLeft) { m = -1; p = 0.07f; }
-                    if (manualyShift) { return m * (myShift + p); } return m * (Phone.yShift + p); }
+                    if (manualyShift) { return m * (myShift + p); } return m * p; }
                 set {int m = 1;
                     float p = 0f; // Adjust for phone height when in landscape right
                     if (!Headset.landscapeLeft) { m = -1; p = 0.07f; }
-                    myShift = m * (value + p); manualyShift = true; }
+                    myShift = m * (value - m * p); manualyShift = true; }
             }
             public static bool manualIPD = false;
-            public static float mIPD = Headset.lensCenterDistance;
+            public static float mIPD = 0.063f;
             public static float IPD
             {
-                get { if (manualIPD) { return mIPD; } return Headset.lensCenterDistance; }
+                get { if (manualIPD) { return mIPD; } return 0.063f; }
                 set { mIPD = value; manualIPD = true; }
             }
 
@@ -286,8 +286,8 @@ namespace Aryzon {
         }
 
         public static class Headset {
-            public static string name = "Aryzon";
-            public static string url = "https://google.com/cardboard/cfg?p=CgZBcnl6b24SCUFyeXpvbiB2Mx1cj8I9JY_CdT0qEAAASEIAAEhCAABIQgAASEJYAjUCKwc9OgjNzMy9CtcjvFAAYAA";
+            public static string name = "Aryzon v3";
+            public static string url = "https://google.com/cardboard/cfg?p=CgZBcnl6b24SCUFyeXpvbiB2Mx3NzMw9JY_CdT0qEAAASEIAAEhCAABIQgAASEJYADWPwvU8OgiamZm-CtcjvFAAYAA";
             public static float xShift = 0f;
             public static float yShift = 0.03f;
             public static float distortion = 0f;
@@ -296,7 +296,7 @@ namespace Aryzon {
             public static float blueShift = 1.04f;
             public static float lensToScreen = 0.063f;
             public static float eyeToLens = 0.11f;
-            public static float focalLength = 0.082f;
+            public static float focalLength = 0.08f;
             public static float lensCenterDistance = 0.06f;
             public static float bottomToCenter = 0.105f;
             public static float fovFactor = 1.0f;
@@ -545,7 +545,6 @@ namespace Aryzon {
                         AryzonSettings.Phone.aryzonCalibrated = data.aryzonCalibrated;
 
                         AryzonSettings.Instance.Apply();
-                        //AryzonSettings.Instance.Save();
 
                         success = true;
                         returnString = "Successfully retrieved settings for your phone!";
@@ -635,8 +634,8 @@ namespace Aryzon {
     class CalibrationData {
         public float xShift = 0f;
         public float yShift = -0.105f;
-        public float IPD = 0.064f;
-        public string headsetName = "Aryzon";
+        public float IPD = 0.063f;
+        public string headsetName = "Aryzon v3";
         public float xShiftLens = 0f;
         public float yShiftLens = 0f;
         public float distortion = 0f;
@@ -645,8 +644,8 @@ namespace Aryzon {
         public float blueShift = 0f;
         public float lensToScreen = 0.063f;
         public float eyeToLens = 0.11f;
-        public float focalLength = 0.082f;
-        public float lensCenterDistance = 0.082f;
+        public float focalLength = 0.08f;
+        public float lensCenterDistance = 0.06f;
         public float bottomToCenter = 0.105f;
         public float fovFactor = 1.0f;
         public float xRotation = 0f;
@@ -660,18 +659,18 @@ namespace Aryzon {
     [Serializable]
     class HeadsetData
     {
-        public string name = "Aryzon";
-        public string url = "https://google.com/cardboard/cfg?p=CgZBcnl6b24SCUFyeXpvbiB2Mx1cj8I9JY_CdT0qEAAASEIAAEhCAABIQgAASEJYAjUCKwc9OgjNzMy9CtcjvFAAYAA";
+        public string name = "Aryzon v3";
+        public string url = "https://google.com/cardboard/cfg?p=CgZBcnl6b24SCUFyeXpvbiB2Mx3NzMw9JY_CdT0qEAAASEIAAEhCAABIQgAASEJYADWPwvU8OgiamZm-CtcjvFAAYAA";
         public float xShift = 0f;
-        public float yShift = 0f;
-        public float distortion = 0f;
-        public float redShift = 0f;
-        public float greenShift = 0f;
-        public float blueShift = 0f;
-        public float lensToScreen = 0.063f;
+        public float yShift = 0.03f;
+        public float distortion = -1f;
+        public float redShift = 1.01f;
+        public float greenShift = 1.02f;
+        public float blueShift = 1.04f;
+        public float lensToScreen = 0.0636f;
         public float eyeToLens = 0.11f;
-        public float focalLength = 0.082f;
-        public float lensCenterDistance = 0.082f;
+        public float focalLength = 0.08f;
+        public float lensCenterDistance = 0.06f;
         public float bottomToCenter = 0.105f;
         public float fovFactor = 1.0f;
         public float xRotation = 0f;

@@ -34,12 +34,33 @@ Follow the official Google Cardboard SDK steps under [**Other Settings**](https:
 ## Adding Aryzon support to an existing scene
 You can simply add Aryzon support to an existing ARFoundation scene like [one of the official samples](https://github.com/Unity-Technologies/arfoundation-samples) or any other scene. Do the following:
 * Add the **Aryzon** and **AryzonInputController** prefabs to the scene from **Packages -> Aryzon MR Headset Plugin -> Runtime -> Prefabs**.
-* Set `Application.targetFrameRate = 60` somewhere in Start() or Awake().
 * Make sure there is an **EventSystem** in the scene.
 * ARFoundation only: on the **Aryzon** GameObject set 'ARFoundation' as the tracking engine.
 * ARFoundation only: on the **ARSession** GameObject deselect 'Match Frame Rate'.
 
 Note: **ARSession** has an option 'Match Frame Rate', by default this option is selected, however it should not be selected when building for [Aryzon headsets](https://www.aryzon.com). Most Android phones run ARCore at only 30 fps. Selecting this option causes the stereoscopic view to run at 30 fps as well. Since rotation is updated at 60 fps (or even more) we should disable this option.
+
+## Adding Aryzon support to an MRTK project
+Yes that's right, you can add Aryzon support to a Microsoft Mixed Reality Toolkit project! This gives you access to all the great stuff the Microsoft Mixed Reality Toolkit has to offer and turns your phone into a HoloLens (well almost).
+
+1. Start out with a MRTK scene like one of the Examples. For instance use the HandInteractionExample scene from the MRTK Examples package.
+2. Convert the MRTK project so it runs on your phone in 2D by following [the steps in this link](https://microsoft.github.io/MixedRealityToolkit-Unity/Documentation/CrossPlatform/UsingARFoundation.html).
+3. Set the update type of the UnityARCameraSettingsProfile you just added to 'Before Render'.
+4. Add the Aryzon prefab  from **Packages -> Aryzon MR Headset Plugin -> Runtime -> Prefabs**
+5. Add an AR Session GameObject to the scene. **GameObject -> XR -> ARSession**
+6. Deselect 'Match Frame Rate' on the AR Session GameObject.
+
+### Wireless Controller
+Use our [wireless controller](https://www.aryzon.com/aryzon-wireless-controller) to provide input to the MRTK input system. This gives 'Tap' functionality similar to the HoloLens 1. With this you are able click buttons, move/scale/rotate objects and more. Import [this package](https://github.com/Aryzon/unity-sdk/raw/main/Extras/AryzonMRTK.unitypackage) and add the AryzonMRTKController prefab to the scene.
+
+## Wireless Controller Support
+If you have a bluetooth controller or the [Aryzon Controller](https://www.aryzon.com/aryzon-wireless-controller) you can add this in Aryzon mode. Make sure you have the AryzonInputController or AryzonMRTKController in your scene:
+
+1. Enter Aryzon mode in the app select Settings.
+2. Tap on ‘Listen’
+3. Click the button you want to use on the controller as a ‘reticle click’.
+
+Some bluetooth controllers require to be set in a different mode in order to be recognised. Please refer to the devices manual on how to do that.
 
 ## Calibration
 Mixed reality usually requires some form of interaction or alignment with the physical world. In order to get good optical results the SDK has a **calibration menu** to align the virtual and physical world. You can enable this at runtime on the phone in Aryzon Mode. Go to **Settings** and select **Show calibration menu**.

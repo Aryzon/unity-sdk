@@ -12,8 +12,23 @@ Navigate to **Window -> Package Manager**.
 2. Add the **Aryzon MR Headset Unity SDK** package from this Git URL:<br>`https://github.com/Aryzon/unity-sdk.git`
 3. Import the samples from the **Aryzon MR Headset Unity SDK** package. (Unfold **Samples -> Import**).
 
-#### Android Specific:
-Follow the official Google Cardboard SDK steps under [**Other Settings**](https://developers.google.com/cardboard/develop/unity/quickstart#other_settings) and [**Publishing Settings**](https://developers.google.com/cardboard/develop/unity/quickstart#publishing_settings). **DO NOT follow any other instructions that are there.**
+#### Android only:
+Navigate to **Project Settings > Player > Other Settings**.
+* Choose OpenGLES2, or OpenGLES3, or both in Graphics APIs.
+* Select IL2CPP in Scripting Backend.
+* Select desired architectures by choosing ARMv7, ARM64, or both in Target Architectures.
+* Select Require in Internet Access.
+
+Navigate to **Project Settings > Player > Publishing Settings**.
+* In the Build section, select Custom Main Gradle Template
+* Add the following lines to the dependencies section of Assets/Plugins/Android/mainTemplate.gradle:
+**
+```
+implementation 'com.android.support:appcompat-v7:28.0.0'
+implementation 'com.android.support:support-v4:28.0.0'
+implementation 'com.google.android.gms:play-services-vision:15.0.2'
+implementation 'com.google.protobuf:protobuf-javalite:3.8.0'
+```
 
 ### Choice of tracking
 * Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow the 3DoF instructions to get rotational tracking only.

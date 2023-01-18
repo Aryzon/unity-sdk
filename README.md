@@ -5,30 +5,13 @@
 * An MR headset like one of our [Aryzon Headsets](https://www.aryzon.com).<br>Note this SDK will also function with any VR Google Cardboard headset, however for 6DoF to work your phone's camera will need to be able to 'see' the environment. Many headsets block the camera.
 
 ## Getting started
-Start by opening a new Unity project.
-### Add the packages
+To get started for Unity follow the steps in the link below, however you will have to choose a different package URL and you should not enable Cardboard in XR Plugin Management. See the 3 steps below the link for further explanation.<br>
+[Google Cardboard Quickstart with Unity](https://developers.google.com/cardboard/develop/unity/quickstart)
+
 Navigate to **Window -> Package Manager**.
-1. Choose to add the **Google Cardboard XR Plugin with 6DoF support** package from a Git URL. Enter this url:<br>`https://github.com/Aryzon/cardboard-xr-plugin.git`<br>*This is based on [our fork](https://github.com/Aryzon/cardboard) from the [Google Cardboard SDK](https://github.com/googlevr/cardboard). You do not have to import the samples from this package.*
+1. Choose to add the **Google Cardboard XR Plugin with 6DoF support** package from a Git URL. Enter this instead of the one Google provides in the URL above:<br>`https://github.com/Aryzon/cardboard-xr-plugin.git`<br>*This is based on [our fork](https://github.com/Aryzon/cardboard) from the [Google Cardboard SDK](https://github.com/googlevr/cardboard). You do not have to import the samples from this package.*
 2. Add the **Aryzon MR Headset Unity SDK** package from this Git URL:<br>`https://github.com/Aryzon/unity-sdk.git`
 3. Import the samples from the **Aryzon MR Headset Unity SDK** package. (Unfold **Samples -> Import**).
-
-#### Android only:
-Navigate to **Project Settings > Player > Other Settings**.
-* Choose OpenGLES2, or OpenGLES3, or both in Graphics APIs.
-* Select IL2CPP in Scripting Backend.
-* Select desired architectures by choosing ARMv7, ARM64, or both in Target Architectures.
-* Select Require in Internet Access.
-
-Navigate to **Project Settings > Player > Publishing Settings**.
-* In the Build section, select Custom Main Gradle Template
-* Add the following lines to the dependencies section of Assets/Plugins/Android/mainTemplate.gradle:
-**
-```
-implementation 'com.android.support:appcompat-v7:28.0.0'
-implementation 'com.android.support:support-v4:28.0.0'
-implementation 'com.google.android.gms:play-services-vision:15.0.2'
-implementation 'com.google.protobuf:protobuf-javalite:3.8.0'
-```
 
 ### Choice of tracking
 * Use 3 degrees of freedom tracking when the user position is steady and the user cannot walk around. Follow the 3DoF instructions to get rotational tracking only.

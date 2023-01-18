@@ -38,7 +38,7 @@ namespace Aryzon
             if (!loader)
             {
                 loader = ScriptableObject.CreateInstance<XRLoader>();
-                XRLoader.renderWidgets = false;
+                //XRLoader.renderWidgets = false;
             }
 #if !UNITY_EDITOR
             loader.Initialize();
@@ -74,7 +74,7 @@ namespace Aryzon
             }
             if (!String.IsNullOrWhiteSpace(AryzonSettings.Headset.url))
             {
-                Api.SetDeviceParamsURL(AryzonSettings.Headset.url);
+                Api.SaveDeviceParams(AryzonSettings.Headset.url);
             }
             if (AryzonSettings.Calibration.manualILD)
             {
@@ -93,18 +93,18 @@ namespace Aryzon
             {
                 return;
             }
-            if (XRLoader.renderWidgets)
+            //if (XRLoader.renderWidgets)
+            //{
+            if (Api.IsGearButtonPressed)
             {
-                if (Api.IsGearButtonPressed)
-                {
-                    Api.ScanDeviceParams();
-                }
-
-                if (Api.IsCloseButtonPressed)
-                {
-                    Application.Quit();
-                }
+                Api.ScanDeviceParams();
             }
+
+            if (Api.IsCloseButtonPressed)
+            {
+                Application.Quit();
+            }
+            //}
             if (Api.HasNewDeviceParams())
             {
                 Api.ReloadDeviceParams();

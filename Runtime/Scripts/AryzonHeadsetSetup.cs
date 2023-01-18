@@ -27,11 +27,10 @@ public class AryzonHeadsetSetup : MonoBehaviour
 
     IEnumerator StopCardboardWhenDone()
     {
-        int startCount = Api.GetQrCodeScanCount();
         float timer = 60f; // Allow one minute for scanning the QR code
         while (timer > 0)
         {
-            if (startCount != Api.GetQrCodeScanCount())
+            if (Api.HasNewDeviceParams())
             {
                 timer = -1f;
             }
@@ -41,7 +40,7 @@ public class AryzonHeadsetSetup : MonoBehaviour
 
         if (Api.HasDeviceParams())
         {
-            String model = Api.GetDeviceModel();
+            String model = Api.GetHeadsetModel();
 
             int selectionIndex = -1;
             int i = 0;

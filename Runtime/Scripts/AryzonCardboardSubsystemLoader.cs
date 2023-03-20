@@ -93,8 +93,7 @@ namespace Aryzon
             {
                 return;
             }
-            //if (XRLoader.renderWidgets)
-            //{
+            
             if (Api.IsGearButtonPressed)
             {
                 Api.ScanDeviceParams();
@@ -102,9 +101,9 @@ namespace Aryzon
 
             if (Api.IsCloseButtonPressed)
             {
-                Application.Quit();
+                AryzonSettings.Instance.aryzonManager.StopAryzonMode();
             }
-            //}
+
             if (Api.HasNewDeviceParams())
             {
                 Api.ReloadDeviceParams();

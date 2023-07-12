@@ -221,7 +221,7 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
         }
     }
 
-    private virtual void Raycast()
+    public virtual void Raycast()
     {
         if (showDebugRay)
         {

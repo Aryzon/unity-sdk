@@ -93,7 +93,7 @@ namespace Aryzon
         void PerformUpdate()
         {
 #if UNITY_EDITOR
-            if (Application.isPlaying)
+            if (Application.isPlaying && AryzonSettings.Instance.aryzonManager.editorMovementsControls)
             {
                 AryzonPose pose = new AryzonPose();
                 pose.position = editorPoseProviderTransform.position;

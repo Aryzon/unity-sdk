@@ -9,13 +9,12 @@ namespace UnityEngine.EventSystems
         private readonly MouseState m_MouseState = new MouseState();
 
         public bool timedClick = true;
-        public float reticleDistance = 0.7f;
 
-        //public Camera raycastCamera;
-        public Transform reticleTransform;
         public StandaloneInputModule standaloneInputModule;
 
         public AryzonReticleAnimator reticleAnimator;
+
+        public IAryzonReticleInteractionDelegate interactionDelegate;
 
         private AryzonRaycastObject externalRaycastObject;
         private GameObject externalGO;
@@ -39,16 +38,19 @@ namespace UnityEngine.EventSystems
         [SerializeField]
         private bool m_ForceModuleActive;
 
-        public void SetExternalObject(AryzonRaycastObject obj)
+        public void SetExternalObject(GameObject obj)
         {
-            externalRaycastObject = obj;
-            if (externalRaycastObject)
+            if (externalGO != obj)
             {
-                externalGO = obj.gameObject;
-            } else
-            {
-                externalGO = null;
+                if (externalRaycastObject) externalRaycastObject.PointerOff();
+                if (interactionDelegate != null && interactionDelegate.IsInteractable(externalGO))
+                {
+                    interactionDelegate.PointerOff(externalGO);
+                }
             }
+
+            externalRaycastObject = obj?.GetComponent<AryzonRaycastObject>();
+            externalGO = obj;
         }
 
         public void SetHitDistance(float distance)
@@ -241,8 +243,7 @@ namespace UnityEngine.EventSystems
             }
         }
 
-        private float z;
-        private Vector3 zScale = Vector3.one;
+        
         private void ProcessPress(PointerEventData pointerEvent, bool pressed, bool released)
         {
             GameObject currentGO;
@@ -252,11 +253,8 @@ namespace UnityEngine.EventSystems
 
                 if (!pressing)
                 {
-                    z = hitDistance;
-                    zScale = Vector3.one * (z / reticleDistance);
+                    reticleAnimator.SetDistance(hitDistance);
                 }
-                reticleTransform.localPosition = new Vector3(0f, 0f, z);
-                reticleTransform.localScale = zScale;
             }
             else
             {
@@ -266,39 +264,36 @@ namespace UnityEngine.EventSystems
                 {
                     if (!pressing)
                     {
-                        z = pointerEvent.pointerCurrentRaycast.distance;
-                        zScale = Vector3.one * (z / reticleDistance);
+                        reticleAnimator.SetDistance(pointerEvent.pointerCurrentRaycast.distance);
                     }
-                    reticleTransform.localPosition = new Vector3(0f, 0f, z);
-                    reticleTransform.localScale = zScale;
                 }
-                else
+                else if (didSetOffState && reticleState == ReticleState.OffState)
                 {
-                    if (didSetOffState && reticleState == ReticleState.OffState)
-                    {
-                        z = reticleDistance;
-                        zScale = Vector3.one;
-                    }
-                    reticleTransform.localPosition = new Vector3(0f, 0f, z);
-                    reticleTransform.localScale = zScale;
+                    reticleAnimator.SetDefaultPose();
                 }
             }
-
-            
 
             bool wentOver = false;
             bool stayedOver = false;
             bool wentOff = false;
 
-            if (currentGO)
+            bool isInteractable = false;
+            if (currentGO && interactionDelegate != null)
+            {
+                isInteractable = interactionDelegate.IsInteractable(currentGO);
+            }
+
+            if (isInteractable)
             {
                 if (currentGO != lastGO)
                 {
                     wentOver = true;
+                    Debug.Log("Went over: " + currentGO.name);
                 }
                 else
                 {
                     stayedOver = true;
+                    Debug.Log("Stayed over: " + currentGO.name);
                 }
             }
             else
@@ -325,10 +320,12 @@ namespace UnityEngine.EventSystems
 
                     if (wentOver || stayedOver)
                     {
+                        Debug.Log("SetOverState 1");
                         SetOverState();
                     }
                     else
                     {
+                        Debug.Log("SetOffState 1");
                         SetOffState();
                     }
                 }
@@ -340,10 +337,12 @@ namespace UnityEngine.EventSystems
 
                     if (wentOver || stayedOver)
                     {
+                        Debug.Log("SetOverState 2");
                         SetOverState();
                     }
                     else
                     {
+                        Debug.Log("SetOffState 2");
                         SetOffState();
                     }
                 }
@@ -366,18 +365,22 @@ namespace UnityEngine.EventSystems
                 }
                 if (wentOver)
                 {
+                    Debug.Log("Went over");
                     SetOverState();
                 }
                 else if (stayedOver)
                 {
+                    Debug.Log("Stayed Over");
                     if (pressed)
                     {
+                        Debug.Log("Pressed");
                         pressing = true;
                         HandlePressed(pointerEvent, currentGO);
                         SetClickedState();
                     }
                 } else if (wentOff)
                 {
+                    Debug.Log("Went off");
                     SetOffState();
                 }
             }
@@ -389,7 +392,10 @@ namespace UnityEngine.EventSystems
         {
             if (currentGO == externalGO)
             {
-                externalRaycastObject.PointerDown();
+                if (externalRaycastObject)
+                {
+                    externalRaycastObject.PointerDown();
+                }
             }
             else
             {

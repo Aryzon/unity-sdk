@@ -1,3 +1,5 @@
+#import <GameController/GameController.h>
+
 extern "C" {
     void setBrightnessToHighest() {
         [[UIScreen mainScreen] setBrightness:1.0];
@@ -25,6 +27,16 @@ extern "C" {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customURL]];
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/nl/app/aryzon/id1288276519?l=en&mt=8"]];
+        }
+    }
+}
+
+extern "C" {
+    int getControllerConnectionStatus() {
+        if (@available(iOS 14.0, *)) {
+            return (int)(GCKeyboard.coalescedKeyboard != nil);
+        } else {
+            return 2; // Unknown connection status
         }
     }
 }

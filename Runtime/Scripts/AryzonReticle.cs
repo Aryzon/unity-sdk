@@ -11,13 +11,16 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
     [HeaderAttribute("Reticle")]
     public GameObject prefab;
 
+    public MonoBehaviour interactionDelegate;
+
+    public bool useAryzonInputModule = true;
     public bool timedClick = true;
     public bool showDebugRay = true;
     public float debugRayLength = 5f;
     public float maxRaycastLength = 25f;
     public float reticleDistance = 1f;
     public float timeToClick = 0.8f;
-    public LayerMask excludeLayers;
+    public LayerMask layers;
 
     //[SerializeField] (for future use)
     private bool _alwaysShowReticle = false;
@@ -45,13 +48,12 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
 
     private AryzonInputModule aryzonInputModule;
     private BaseInputModule baseInputModule;
-    private AryzonReticleAnimator reticleAnimator;
+    public AryzonReticleAnimator reticleAnimator;
 
     private GameObject eventSystemGO;
     private GameObject reticle;
 
     private Collider previousCollider;
-    private AryzonRaycastObject previousRaycastObject;
 
     private void OnEnable()
     {
@@ -108,24 +110,28 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
             reticleModeSet = false;
             if (reticleMode)
             {
-                EventSystem currentEventSystem = EventSystem.current;
-                if (currentEventSystem)
+                if (useAryzonInputModule)
                 {
-                    baseInputModule = EventSystem.current.currentInputModule;
+                    EventSystem currentEventSystem = EventSystem.current;
+                    if (currentEventSystem)
+                    {
+                        baseInputModule = EventSystem.current.currentInputModule;
+                    }
+                    else
+                    {
+                        eventSystemGO = new GameObject("EventSystem");
+                        currentEventSystem = eventSystemGO.AddComponent<EventSystem>();
+                    }
+                    if (baseInputModule)
+                    {
+                        eventSystemGO = baseInputModule.gameObject;
+                    }
+                    aryzonInputModule = eventSystemGO.AddComponent<AryzonInputModule>();
+                    baseInputModule.enabled = false;
+                    aryzonInputModule.forceModuleActive = true;
+                    aryzonInputModule.SetClickTime(timeToClick);
+                    aryzonInputModule.timedClick = timedClick;
                 }
-                else
-                {
-                    eventSystemGO = new GameObject("EventSystem");
-                    currentEventSystem = eventSystemGO.AddComponent<EventSystem>();
-                }
-                if (baseInputModule)
-                {
-                    eventSystemGO = baseInputModule.gameObject;
-                }
-                aryzonInputModule = eventSystemGO.AddComponent<AryzonInputModule>();
-                baseInputModule.enabled = false;
-                aryzonInputModule.forceModuleActive = true;
-                aryzonInputModule.SetClickTime(timeToClick);
 
                 if (!reticleCam)
                 {
@@ -146,11 +152,18 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
                 {
                     reticle = Instantiate(prefab, reticleCam.transform);
                 }
-                aryzonInputModule.reticleTransform = reticle.transform;
-                aryzonInputModule.reticleDistance = reticleDistance;
-                aryzonInputModule.timedClick = timedClick;
+
                 reticleAnimator = reticle.GetComponent<AryzonReticleAnimator>();
-                aryzonInputModule.reticleAnimator = reticleAnimator;
+                reticleAnimator.defaultDistance = reticleDistance;
+
+                if (useAryzonInputModule)
+                {
+                    aryzonInputModule.reticleAnimator = reticleAnimator;
+                    if (interactionDelegate && interactionDelegate.GetType() == typeof(IAryzonReticleInteractionDelegate))
+                    {
+                        aryzonInputModule.interactionDelegate = (IAryzonReticleInteractionDelegate)interactionDelegate;
+                    }
+                }
 
                 screenOverlayCanvasses.Clear();
                 worldSpaceCanvasses.Clear();
@@ -215,46 +228,36 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
             }
         }
 
-        if (reticleMode)
+        if (reticleMode && useAryzonInputModule)
         {
             Raycast();
         }
     }
 
-    public virtual void Raycast()
+    private void Raycast()
     {
         if (showDebugRay)
         {
             Debug.DrawRay(reticleCam.transform.position, reticleCam.transform.forward * debugRayLength, Color.magenta);
         }
         
-        Ray ray = new Ray(new Vector3(reticleCam.transform.position.x+0.06f, reticleCam.transform.position.y, reticleCam.transform.position.z), reticleCam.transform.forward);
+        Ray ray = new Ray(new Vector3(reticleCam.transform.position.x, reticleCam.transform.position.y, reticleCam.transform.position.z), reticleCam.transform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, maxRaycastLength, ~excludeLayers))
+        if (Physics.Raycast(ray, out hit, maxRaycastLength, layers))
         {
             if (previousCollider != hit.collider)
             {
-                AryzonRaycastObject raycastObject = hit.collider.GetComponent<AryzonRaycastObject>();
-                aryzonInputModule.SetExternalObject(raycastObject);
-
-                if (previousRaycastObject)
-                {
-                    previousRaycastObject.PointerOff();
-                }
-                previousRaycastObject = raycastObject;
+                aryzonInputModule.SetExternalObject(hit.collider.gameObject);
             }
-            aryzonInputModule.SetHitDistance(Vector3.Distance(reticleCam.transform.position, hit.point));
+            float distance = Mathf.Min(maxRaycastLength, Vector3.Distance(reticleCam.transform.position, hit.point));
+
+            aryzonInputModule.SetHitDistance(distance);
             previousCollider = hit.collider;
         }
         else
         {
             aryzonInputModule.SetExternalObject(null);
-            if (previousRaycastObject)
-            {
-                previousRaycastObject.PointerOff();
-                previousRaycastObject = null;
-            }
             previousCollider = null;
         }
     }

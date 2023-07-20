@@ -24,7 +24,9 @@ namespace Aryzon.EditorUI {
 
 		SerializedProperty trackingEngineProp;
 
-		SerializedProperty setAryzonModeOnStartProp;
+        SerializedProperty addEditorMovementControlsProp;
+
+        SerializedProperty setAryzonModeOnStartProp;
 		SerializedProperty blackBackgroundProp;
 
 		SerializedProperty onStartProp;
@@ -77,7 +79,8 @@ namespace Aryzon.EditorUI {
 			trackingEngineProp = serializedObject.FindProperty("trackingEngine");
 
 			setAryzonModeOnStartProp = serializedObject.FindProperty("setAryzonModeOnStart");
-			blackBackgroundProp = serializedObject.FindProperty("blackBackgroundInStereoscopicMode");
+            addEditorMovementControlsProp = serializedObject.FindProperty("editorMovementsControls");
+            blackBackgroundProp = serializedObject.FindProperty("blackBackgroundInStereoscopicMode");
 
 			m_OnClickProperty = serializedObject.FindProperty("onClick");
 
@@ -146,7 +149,8 @@ namespace Aryzon.EditorUI {
 
 			EditorGUILayout.PropertyField(setAryzonModeOnStartProp, new GUIContent("Set Aryzon mode on Start"), GUILayout.Height(fieldHeight));
 			EditorGUILayout.PropertyField(blackBackgroundProp, new GUIContent("Auto setup cameras for AR/MR", "This will disable the camera feed in stereoscopic mode (ARFoundation only) and set its Clear Flags to Solid Color black (any tracking engine). This is recommended for MR use, for VR you may want to render the Sky Box, in that case you will need to disable the camera feed manually."), GUILayout.Height(fieldHeight));
-			EditorGUILayout.Space();
+            EditorGUILayout.PropertyField(addEditorMovementControlsProp, new GUIContent("Add movement controls (editor only)"), GUILayout.Height(fieldHeight));
+            EditorGUILayout.Space();
 			EditorGUILayout.Space();
 
 			aryzonManager.showAryzonModeEvents = EditorGUILayout.Foldout(EditorPrefs.GetBool("showAryzonModeEvents", false), "Aryzon mode events");

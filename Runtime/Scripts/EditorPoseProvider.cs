@@ -78,13 +78,13 @@ public class EditorPoseProvider : MonoBehaviour
 				transform.localRotation *= yRotation;
 			}
 
-			var move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			transform.position += move * speed * Time.deltaTime;
+            var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+            transform.localPosition += move * speed * Time.deltaTime;
 		}
 		else
 		{
-			var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-			transform.position += move * speed * Time.deltaTime;
+            var move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+			transform.localPosition += move * speed * Time.deltaTime;
 		}
 	}
     #endif

@@ -23,8 +23,8 @@ namespace Aryzon
 
         private void OnEnable()
         {
-            keyUp = AryzonSettings.Instance.controllerUpKeyCode;
-            keyDown = AryzonSettings.Instance.controllerDownKeyCode;
+            keyUp = AryzonSettings.Controller.Trigger.Up;
+            keyDown = AryzonSettings.Controller.Trigger.Down;
 
             if (keyUp == KeyCode.None)
             {
@@ -93,9 +93,6 @@ namespace Aryzon
             downInUpdate = false;
         }
 
-
-
-
         public void Update()
         {
             if (listening)
@@ -106,15 +103,15 @@ namespace Aryzon
                     {
                         downInUpdate = true;
 
-                        AryzonSettings.Instance.controllerDownKeyCode = keyCode;
-                        Debug.Log("Detected keyDown code: " + keyCode);
+                        AryzonSettings.Controller.Trigger = new AryzonSettings.Controller.KeyMap(keyCode, AryzonSettings.Controller.Trigger.Up);
+                        
                         keyDown = keyCode;
                     }
                     if (downInUpdate && Input.GetKeyUp(keyCode))
                     {
-                        AryzonSettings.Instance.controllerUpKeyCode = keyCode;
+                        AryzonSettings.Controller.Trigger = new AryzonSettings.Controller.KeyMap(AryzonSettings.Controller.Trigger.Down, keyCode);
                         keyUp = keyCode;
-                        Debug.Log("Detected keyUp code: " + keyCode);
+                        
                         if (keyDown == keyUp)
                         {
                             status.text = "Using key \'" + keyUp + "\'";

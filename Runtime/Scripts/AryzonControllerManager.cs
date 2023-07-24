@@ -7,6 +7,7 @@ using Aryzon;
 using System.Runtime.InteropServices;
 using OpenUp.Interpreter.EventSystem.Controllers;
 using System.Linq;
+using static OpenUp.Interpreter.Core.UnityGLTF.Loader.ImportProgression;
 
 namespace Aryzon
 {
@@ -60,6 +61,21 @@ namespace Aryzon
             get => (Connection)getControllerConnectionStatus();
         }
 
+        public bool TriggerDown { get => triggerDown; }
+        public bool ThumbDown { get => thumbDown; }
+        public bool MenuDown { get => menuDown; }
+        public bool ExitDown { get => exitDown; }
+        public bool ADown { get => aDown; }
+        public bool BDown { get => bDown; }
+        public bool XDown { get => xDown; }
+        public bool YDown { get => yDown; }
+
+        public bool IsUsed
+        {
+            get => isUsed;
+        }
+        private bool isUsed;
+
         private bool triggerDown;
         private bool menuDown;
         private bool exitDown;
@@ -79,6 +95,10 @@ namespace Aryzon
             get => upDown | downDown | leftDown | rightDown;
         }
 
+        public Vector2 Thumbstick
+        {
+            get => thumb;
+        }
         private Vector2 thumb;
 
         private Coroutine checkConnection;
@@ -106,6 +126,7 @@ namespace Aryzon
 
         private void OnEnable()
         {
+            isUsed = false;
             checkConnection = StartCoroutine(CheckConnection());
         }
 
@@ -122,8 +143,8 @@ namespace Aryzon
             while (true)
             {
                 Connection cS = ConnectionStatus;
-                if (!wasConnected && cS == Connection.Connected) { OnControllerConnected?.Invoke(cS); wasConnected = true; }
-                else if (wasConnected && cS != Connection.Connected) { OnControllerDisconnected?.Invoke(cS); wasConnected = false; }
+                if (!wasConnected && cS == Connection.Connected) { OnControllerConnected?.Invoke(cS); wasConnected = true; isUsed = true; }
+                else if (wasConnected && cS != Connection.Connected) { OnControllerDisconnected?.Invoke(cS); wasConnected = false; isUsed = false; }
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -132,46 +153,46 @@ namespace Aryzon
         {
             if (!activeOutsideAryzonMode && (!AryzonSettings.Instance.AryzonMode || !AryzonSettings.Instance.LandscapeMode)) return;
 
-            if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) TriggerReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) TriggerDown();
+            if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) DoTriggerReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
 
-            if (menuDown && Input.GetKeyDown(AryzonSettings.Controller.Menu.Up)) MenuReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Menu.Down)) MenuDown();
+            if (menuDown && Input.GetKeyDown(AryzonSettings.Controller.Menu.Up)) DoMenuReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Menu.Down)) DoMenuDown();
 
-            if (exitDown && Input.GetKeyDown(AryzonSettings.Controller.Exit.Up)) ExitReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Exit.Down)) ExitDown();
+            if (exitDown && Input.GetKeyDown(AryzonSettings.Controller.Exit.Up)) DoExitReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Exit.Down)) DoExitDown();
 
-            if (aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Up)) AReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.A.Down)) ADown();
+            if (aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Up)) DoAReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoADown();
 
-            if (bDown && Input.GetKeyDown(AryzonSettings.Controller.B.Up)) BReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.B.Down)) BDown();
+            if (bDown && Input.GetKeyDown(AryzonSettings.Controller.B.Up)) DoBReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.B.Down)) DoBDown();
 
-            if (xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Up)) XReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.X.Down)) XDown();
+            if (xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Up)) DoXReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXDown();
 
-            if (yDown && Input.GetKeyDown(AryzonSettings.Controller.Y.Up)) YReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Y.Down)) YDown();
+            if (yDown && Input.GetKeyDown(AryzonSettings.Controller.Y.Up)) DoYReleased();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Y.Down)) DoYDown();
 
-            if (upDown && Input.GetKeyDown(AryzonSettings.Controller.Up.Up)) UpReleased();
-            if (downDown && Input.GetKeyDown(AryzonSettings.Controller.Down.Up)) DownReleased();
-            if (leftDown && Input.GetKeyDown(AryzonSettings.Controller.Left.Up)) LeftReleased();
-            if (rightDown && Input.GetKeyDown(AryzonSettings.Controller.Right.Up)) RightReleased();
+            if (upDown && Input.GetKeyDown(AryzonSettings.Controller.Up.Up)) DoUpReleased();
+            if (downDown && Input.GetKeyDown(AryzonSettings.Controller.Down.Up)) DoDownReleased();
+            if (leftDown && Input.GetKeyDown(AryzonSettings.Controller.Left.Up)) DoLeftReleased();
+            if (rightDown && Input.GetKeyDown(AryzonSettings.Controller.Right.Up)) DoRightReleased();
 
-            if (Input.GetKeyDown(AryzonSettings.Controller.Up.Down)) UpDown();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Down.Down)) DownDown();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Left.Down)) LeftDown();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Right.Down)) RightDown();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Up.Down)) DoUpDown();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Down.Down)) DoDownDown();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Left.Down)) DoLeftDown();
+            if (Input.GetKeyDown(AryzonSettings.Controller.Right.Down)) DoRightDown();
 
             if (upDown && downDown)
             {
-                UpReleased();
-                DownReleased();
+                DoUpReleased();
+                DoDownReleased();
             }
             if (leftDown && rightDown)
             {
-                LeftReleased();
-                RightReleased();
+                DoLeftReleased();
+                DoRightReleased();
             }
 
             float x = (upDown ? 1f : 0f) - (downDown ? 1f : 0f);
@@ -180,149 +201,161 @@ namespace Aryzon
             if (!thumbWasDown && thumbDown)
             {
                 thumb = new Vector2(x, y).normalized;
-                ThumbDown();
+                DoThumbDown();
             }
             else if (thumbWasDown && !thumbDown)
             {
                 thumb = Vector2.zero;
-                ThumbReleased();
+                DoThumbReleased();
             }
 
             thumbWasDown = thumbDown;
         }
 
-        private void TriggerDown()
+        private void DoTriggerDown()
         {
+            isUsed = true;
             triggerDown = true;
             OnTriggerDown?.Invoke();
         }
 
-        private void MenuDown()
+        private void DoMenuDown()
         {
+            isUsed = true;
             menuDown = true;
             OnMenuDown?.Invoke();
         }
 
-        private void ExitDown()
+        private void DoExitDown()
         {
+            isUsed = true;
             exitDown = true;
             OnExitDown?.Invoke();
         }
 
-        private void ADown()
+        private void DoADown()
         {
+            isUsed = true;
             aDown = true;
             OnADown?.Invoke();
         }
 
-        private void BDown()
+        private void DoBDown()
         {
+            isUsed = true;
             bDown = true;
             OnBDown?.Invoke();
         }
 
-        private void XDown()
+        private void DoXDown()
         {
+            isUsed = true;
             xDown = true;
             OnXDown?.Invoke();
         }
 
-        private void YDown()
+        private void DoYDown()
         {
+            isUsed = true;
             yDown = true;
             OnYDown?.Invoke();
         }
 
-        private void UpDown()
+        private void DoUpDown()
         {
+            isUsed = true;
             upDown = true;
         }
 
-        private void DownDown()
+        private void DoDownDown()
         {
+            isUsed = true;
             downDown = true;
         }
 
-        private void LeftDown()
+        private void DoLeftDown()
         {
+            isUsed = true;
             leftDown = true;
         }
 
-        private void RightDown()
+        private void DoRightDown()
         {
+            isUsed = true;
             rightDown = true;
         }
 
-        private void ThumbDown()
+        private void DoThumbDown()
         {
+            isUsed = true;
             OnThumbDown?.Invoke(thumb);
         }
 
 
 
-        private void TriggerReleased()
+        private void DoTriggerReleased()
         {
             triggerDown = false;
             OnTriggerUp?.Invoke();
         }
 
-        private void MenuReleased()
+        private void DoMenuReleased()
         {
             menuDown = false;
             OnMenuUp?.Invoke();
         }
 
-        private void ExitReleased()
+        private void DoExitReleased()
         {
             exitDown = false;
             OnExitUp?.Invoke();
         }
 
-        private void AReleased()
+        private void DoAReleased()
         {
             aDown = false;
             OnAUp?.Invoke();
         }
 
-        private void BReleased()
+        private void DoBReleased()
         {
             bDown = false;
             OnBUp?.Invoke();
         }
 
-        private void XReleased()
+        private void DoXReleased()
         {
             xDown = false;
             OnXUp?.Invoke();
         }
 
-        private void YReleased()
+        private void DoYReleased()
         {
             yDown = false;
             OnYUp?.Invoke();
         }
 
-        private void UpReleased()
+        private void DoUpReleased()
         {
             upDown = false;
         }
 
-        private void DownReleased()
+        private void DoDownReleased()
         {
             downDown = false;
         }
 
-        private void LeftReleased()
+        private void DoLeftReleased()
         {
             leftDown = false;
         }
 
-        private void RightReleased()
+        private void DoRightReleased()
         {
             rightDown = false;
         }
 
-        private void ThumbReleased()
+        private void DoThumbReleased()
         {
             OnThumbUp?.Invoke();
         }

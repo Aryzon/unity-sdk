@@ -295,6 +295,7 @@ namespace Aryzon {
 
         public static class Controller
         {
+#if UNITY_IOS
             public static KeyMap Trigger = new KeyMap(KeyCode.H, KeyCode.G);
             public static KeyMap Up = new KeyMap(KeyCode.W, KeyCode.E);
             public static KeyMap Down = new KeyMap(KeyCode.X, KeyCode.Z);
@@ -306,7 +307,19 @@ namespace Aryzon {
             public static KeyMap B = new KeyMap(KeyCode.U, KeyCode.F);
             public static KeyMap X = new KeyMap();
             public static KeyMap Y = new KeyMap(KeyCode.J, KeyCode.N);
-
+#else
+            public static KeyMap Trigger = new KeyMap(KeyCode.Return, KeyCode.Return);
+            public static KeyMap Up = new KeyMap(KeyCode.UpArrow, KeyCode.UpArrow);
+            public static KeyMap Down = new KeyMap(KeyCode.DownArrow, KeyCode.DownArrow);
+            public static KeyMap Right = new KeyMap(KeyCode.RightArrow, KeyCode.RightArrow);
+            public static KeyMap Left = new KeyMap(KeyCode.LeftArrow, KeyCode.LeftArrow);
+            public static KeyMap Menu = new KeyMap();
+            public static KeyMap Exit = new KeyMap(KeyCode.L, KeyCode.V);
+            public static KeyMap A = new KeyMap();
+            public static KeyMap B = new KeyMap(KeyCode.Joystick1Button1, KeyCode.Joystick1Button1);
+            public static KeyMap X = new KeyMap();
+            public static KeyMap Y = new KeyMap(KeyCode.Menu, KeyCode.Menu);
+#endif
             static Controller()
             {
                 bool ok = SerializeStatic.Load(typeof(Phone), Application.persistentDataPath + "/AryzonControllerSettings.bfd");

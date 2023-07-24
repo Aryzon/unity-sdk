@@ -150,37 +150,18 @@ namespace Aryzon {
             }
         }
 
-        private bool downKeyChanged = true;
-        private bool upKeyChanged = true;
-
-        private KeyCode _controllerDownKeyCode;
+        [Obsolete]
         public KeyCode controllerDownKeyCode
         {
-            get
-            {
-                if (downKeyChanged)
-                {
-                    downKeyChanged = false;
-                    _controllerDownKeyCode = (KeyCode)PlayerPrefs.GetInt("controllerDownKey", (int)KeyCode.None);
-                }
-                return _controllerDownKeyCode;
-            }
-            set { PlayerPrefs.SetInt("controllerDownKey", (int)value); downKeyChanged = true; }
+            get => Controller.Trigger.Down;
+            set { Controller.Trigger = new Controller.KeyMap(value, Controller.Trigger.Up); SaveController(); }
         }
 
-        private KeyCode _controllerUpKeyCode;
+        [Obsolete]
         public KeyCode controllerUpKeyCode
         {
-            get
-            {
-                if (upKeyChanged)
-                {
-                    upKeyChanged = false;
-                    _controllerUpKeyCode = (KeyCode)PlayerPrefs.GetInt("controllerUpKey", (int)KeyCode.None);
-                }
-                return _controllerUpKeyCode;
-            }
-            set { PlayerPrefs.SetInt("controllerUpKey", (int)value); upKeyChanged = true; }
+            get => Controller.Trigger.Up;
+            set { Controller.Trigger = new Controller.KeyMap(Controller.Trigger.Down, value); SaveController(); }
         }
 
         private static bool applicationIsQuitting = false;
@@ -312,6 +293,56 @@ namespace Aryzon {
             }
         }
 
+        public static class Controller
+        {
+#if UNITY_IOS
+            public static KeyMap Trigger = new KeyMap(KeyCode.H, KeyCode.G);
+            public static KeyMap Up = new KeyMap(KeyCode.W, KeyCode.E);
+            public static KeyMap Down = new KeyMap(KeyCode.X, KeyCode.Z);
+            public static KeyMap Right = new KeyMap(KeyCode.D, KeyCode.C);
+            public static KeyMap Left = new KeyMap(KeyCode.A, KeyCode.Q);
+            public static KeyMap Menu = new KeyMap(KeyCode.O, KeyCode.G);
+            public static KeyMap Exit = new KeyMap(KeyCode.L, KeyCode.V);
+            public static KeyMap A = new KeyMap();
+            public static KeyMap B = new KeyMap(KeyCode.U, KeyCode.F);
+            public static KeyMap X = new KeyMap();
+            public static KeyMap Y = new KeyMap(KeyCode.J, KeyCode.N);
+#else
+            public static KeyMap Trigger = new KeyMap(KeyCode.Return, KeyCode.Return);
+            public static KeyMap Up = new KeyMap(KeyCode.UpArrow, KeyCode.UpArrow);
+            public static KeyMap Down = new KeyMap(KeyCode.DownArrow, KeyCode.DownArrow);
+            public static KeyMap Right = new KeyMap(KeyCode.RightArrow, KeyCode.RightArrow);
+            public static KeyMap Left = new KeyMap(KeyCode.LeftArrow, KeyCode.LeftArrow);
+            public static KeyMap Menu = new KeyMap();
+            public static KeyMap Exit = new KeyMap(KeyCode.L, KeyCode.V);
+            public static KeyMap A = new KeyMap();
+            public static KeyMap B = new KeyMap(KeyCode.Joystick1Button1, KeyCode.Joystick1Button1);
+            public static KeyMap X = new KeyMap();
+            public static KeyMap Y = new KeyMap(KeyCode.Menu, KeyCode.Menu);
+#endif
+            static Controller()
+            {
+                bool ok = SerializeStatic.Load(typeof(Phone), Application.persistentDataPath + "/AryzonControllerSettings.bfd");
+                if (ok)
+                {
+                    AryzonSettings.Instance.Apply();
+                }
+            }
+
+            [Serializable]
+            public struct KeyMap
+            {
+                public KeyCode Up;
+                public KeyCode Down;
+
+                public KeyMap(KeyCode Down, KeyCode Up)
+                {
+                    this.Down = Down;
+                    this.Up = Up;
+                }
+            }
+        }
+
         public bool Save () {
             string savePathHeadset = Application.persistentDataPath + "/AryzonHeadsetSettings.bfd";
             string savePathPhone = Application.persistentDataPath + "/AryzonPhoneSettings.bfd";
@@ -323,12 +354,11 @@ namespace Aryzon {
                 File.Delete (savePathPhone);
             }
             
-
             bool ok0 = SerializeStatic.Save(typeof(Headset), savePathHeadset);
             bool ok1 = SerializeStatic.Save(typeof(Phone), savePathPhone);
             
 
-            return ok0 && ok1 && SaveCalibration();
+            return ok0 && ok1 && SaveCalibration() && SaveController();
         }
 
         public bool SaveCalibration()
@@ -340,6 +370,17 @@ namespace Aryzon {
             }
             
             return SerializeStatic.Save(typeof(Calibration), savePathCalibration);
+        }
+
+        public bool SaveController()
+        {
+            string savePathController = Application.persistentDataPath + "/AryzonControllerSettings.bfd";
+            if (File.Exists(savePathController))
+            {
+                File.Delete(savePathController);
+            }
+
+            return SerializeStatic.Save(typeof(Controller), savePathController);
         }
 
         public void Apply () {

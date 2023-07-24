@@ -72,6 +72,7 @@ namespace Aryzon
 			}
         }
 #if UNITY_EDITOR
+		public bool editorMovementsControls = true;
 		EditorPoseProvider editorPoseProvider;
 #endif
 
@@ -153,7 +154,7 @@ namespace Aryzon
 		{
 			screenWidth = Screen.width;
 #if UNITY_EDITOR
-			if (!editorPoseProvider)
+			if (!editorPoseProvider && editorMovementsControls)
             {
 				GameObject editorPoseProviderGO = new GameObject("EditorPoseProvider");
 				editorPoseProvider = editorPoseProviderGO.AddComponent<EditorPoseProvider>();

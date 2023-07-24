@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4947905653590779252}
   - component: {fileID: 4947905653590779254}
+  - component: {fileID: 2733704630069788985}
   m_Layer: 0
   m_Name: AryzonInputController
   m_TagString: Untagged
@@ -27,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,14 +46,84 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 623598950969334389, guid: 0239fb0358e2d4505aa064fff73a5a46, type: 3}
+  interactionDelegate: {fileID: 0}
+  useAryzonInputModule: 1
   timedClick: 1
   showDebugRay: 1
   debugRayLength: 5
   maxRaycastLength: 25
   reticleDistance: 0.7
   timeToClick: 0.8
-  excludeLayers:
+  layers:
     serializedVersion: 2
     m_Bits: 0
   disableScreenOverlaysInStereoMode: 1
   setWorldSpaceCameras: 1
+  reticleAnimator: {fileID: 0}
+--- !u!114 &2733704630069788985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4947905653590779253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a38f3961c31c3429f9cd6bb6a758247b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeOutsideAryzonMode: 0
+  OnTriggerDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTriggerUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMenuDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMenuUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExitDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExitUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnThumbDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnThumbUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnADown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnXDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnXUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnYDown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnYUp:
+    m_PersistentCalls:
+      m_Calls: []
+  OnControllerConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnControllerDisconnected:
+    m_PersistentCalls:
+      m_Calls: []

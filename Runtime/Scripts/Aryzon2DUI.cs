@@ -11,6 +11,7 @@ namespace Aryzon
         public GameObject startUI;
         public GameObject phoneInHeadsetUI;
         public GameObject settingsUI;
+        public GameObject controllerUI;
 
         private GameObject closeButton;
         private GameObject CloseButton
@@ -44,6 +45,15 @@ namespace Aryzon
             }
         }
 
+        private void Update()
+        {
+            if (Application.platform == RuntimePlatform.Android && Input.GetKey(KeyCode.Escape))
+            {
+                if (phoneInHeadsetUI.activeSelf) ShowMainUI();
+                else { AryzonSettings.Instance.aryzonManager.StopAryzonMode(); }
+            }
+        }
+
         private void OnDestroy()
         {
             if (AryzonSettings.Instance)
@@ -57,6 +67,7 @@ namespace Aryzon
             startUI.SetActive(false);
             phoneInHeadsetUI.SetActive(false);
             settingsUI.SetActive(true);
+            controllerUI.SetActive(false);
         }
 
         public void ShowMainUI()
@@ -64,6 +75,15 @@ namespace Aryzon
             startUI.SetActive(false);
             phoneInHeadsetUI.SetActive(true);
             settingsUI.SetActive(false);
+            controllerUI.SetActive(false);
+        }
+
+        public void ShowControllerUI()
+        {
+            startUI.SetActive(false);
+            phoneInHeadsetUI.SetActive(false);
+            settingsUI.SetActive(false);
+            controllerUI.SetActive(true);
         }
 
         public void StartAryzonMode()

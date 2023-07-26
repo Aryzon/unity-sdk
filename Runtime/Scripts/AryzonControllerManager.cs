@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 using Aryzon;
 using System.Runtime.InteropServices;
-using OpenUp.Interpreter.EventSystem.Controllers;
 using System.Linq;
 
 namespace Aryzon

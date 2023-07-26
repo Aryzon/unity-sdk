@@ -7,7 +7,6 @@ using Aryzon;
 using System.Runtime.InteropServices;
 using OpenUp.Interpreter.EventSystem.Controllers;
 using System.Linq;
-using static OpenUp.Interpreter.Core.UnityGLTF.Loader.ImportProgression;
 
 namespace Aryzon
 {

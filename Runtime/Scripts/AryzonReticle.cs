@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,12 +7,29 @@ using UnityEngine.EventSystems;
 using Aryzon;
 using Aryzon.UI;
 
+
+public interface IAryzonReticleRaycast
+{
+    void Raycast(Vector3 origin, Vector3 direction, float length, LayerMask layerMask, AryzonReticleAnimator reticleAnimator);
+}
+
 public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
 {
     [HeaderAttribute("Reticle")]
     public GameObject prefab;
 
     public MonoBehaviour interactionDelegate;
+    public MonoBehaviour ExternalReticleRaycast
+    {
+        get => externalReticleRaycast;
+        set
+        {
+            if (value.GetType() == typeof(IAryzonReticleRaycast)) externalReticleRaycastInterface = (IAryzonReticleRaycast)value;
+            else { externalReticleRaycast = null; throw new InvalidCastException(); }
+        }
+    }
+    [SerializeField] private MonoBehaviour externalReticleRaycast;
+    private IAryzonReticleRaycast externalReticleRaycastInterface;
 
     public bool useAryzonInputModule = true;
     public bool timedClick = true;
@@ -35,9 +53,6 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
     public bool setWorldSpaceCameras = true;
 
     private Camera reticleCam;
-    /*{
-        get { return AryzonSettings.Instance.aryzonManager.XRCamera; }
-    }*/
 
     private List<Canvas> screenOverlayCanvasses = new List<Canvas>();
     private List<Canvas> worldSpaceCanvasses = new List<Canvas>();
@@ -54,6 +69,11 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
     private GameObject reticle;
 
     private Collider previousCollider;
+
+    private void Awake()
+    {
+        if (externalReticleRaycast?.GetType() == typeof(IAryzonReticleRaycast)) externalReticleRaycastInterface = (IAryzonReticleRaycast)externalReticleRaycast;
+    }
 
     private void OnEnable()
     {
@@ -236,12 +256,22 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
 
     private void Raycast()
     {
+        Vector3 origin = new Vector3(reticleCam.transform.position.x, reticleCam.transform.position.y, reticleCam.transform.position.z);
+        Vector3 direction = reticleCam.transform.forward;
+
+        if (externalReticleRaycastInterface != null)
+        {
+            externalReticleRaycastInterface.Raycast(origin, direction, maxRaycastLength, layers, reticleAnimator);
+        }
+
+        if (!useAryzonInputModule) return;
+
         if (showDebugRay)
         {
             Debug.DrawRay(reticleCam.transform.position, reticleCam.transform.forward * debugRayLength, Color.magenta);
         }
         
-        Ray ray = new Ray(new Vector3(reticleCam.transform.position.x, reticleCam.transform.position.y, reticleCam.transform.position.z), reticleCam.transform.forward);
+        Ray ray = new Ray(origin, direction);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, maxRaycastLength, layers))

@@ -24,8 +24,16 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
         get => externalReticleRaycast;
         set
         {
-            if (value.GetType() == typeof(IAryzonReticleRaycast)) externalReticleRaycastInterface = (IAryzonReticleRaycast)value;
-            else { externalReticleRaycast = null; throw new InvalidCastException(); }
+            if (value == null) {
+                externalReticleRaycastInterface = null;
+                externalReticleRaycast = null;
+                return;
+            }
+            externalReticleRaycastInterface = value as IAryzonReticleRaycast;
+            if (externalReticleRaycastInterface == null) {
+                externalReticleRaycast = null;
+                throw new InvalidCastException();
+            }
         }
     }
     [SerializeField] private MonoBehaviour externalReticleRaycast;

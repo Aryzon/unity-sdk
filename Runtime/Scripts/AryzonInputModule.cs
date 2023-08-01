@@ -288,12 +288,10 @@ namespace UnityEngine.EventSystems
                 if (currentGO != lastGO)
                 {
                     wentOver = true;
-                    Debug.Log("Went over: " + currentGO.name);
                 }
                 else
                 {
                     stayedOver = true;
-                    Debug.Log("Stayed over: " + currentGO.name);
                 }
             }
             else
@@ -320,12 +318,10 @@ namespace UnityEngine.EventSystems
 
                     if (wentOver || stayedOver)
                     {
-                        Debug.Log("SetOverState 1");
                         SetOverState();
                     }
                     else
                     {
-                        Debug.Log("SetOffState 1");
                         SetOffState();
                     }
                 }
@@ -337,12 +333,10 @@ namespace UnityEngine.EventSystems
 
                     if (wentOver || stayedOver)
                     {
-                        Debug.Log("SetOverState 2");
                         SetOverState();
                     }
                     else
                     {
-                        Debug.Log("SetOffState 2");
                         SetOffState();
                     }
                 }
@@ -365,22 +359,18 @@ namespace UnityEngine.EventSystems
                 }
                 if (wentOver)
                 {
-                    Debug.Log("Went over");
                     SetOverState();
                 }
                 else if (stayedOver)
                 {
-                    Debug.Log("Stayed Over");
                     if (pressed)
                     {
-                        Debug.Log("Pressed");
                         pressing = true;
                         HandlePressed(pointerEvent, currentGO);
                         SetClickedState();
                     }
                 } else if (wentOff)
                 {
-                    Debug.Log("Went off");
                     SetOffState();
                 }
             }

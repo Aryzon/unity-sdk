@@ -257,10 +257,7 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
             }
         }
 
-        if (reticleMode && useAryzonInputModule)
-        {
-            Raycast();
-        }
+        if (reticleMode) Raycast();
     }
 
     private void Raycast()

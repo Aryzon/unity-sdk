@@ -29,6 +29,7 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
                 externalReticleRaycast = null;
                 return;
             }
+            externalReticleRaycast = value;
             externalReticleRaycastInterface = value as IAryzonReticleRaycast;
             if (externalReticleRaycastInterface == null) {
                 externalReticleRaycast = null;
@@ -80,7 +81,15 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
 
     private void Awake()
     {
-        if (externalReticleRaycast?.GetType() == typeof(IAryzonReticleRaycast)) externalReticleRaycastInterface = (IAryzonReticleRaycast)externalReticleRaycast;
+        if (externalReticleRaycast != null)
+        {
+            externalReticleRaycastInterface = externalReticleRaycast as IAryzonReticleRaycast;
+            if (externalReticleRaycastInterface == null)
+            {
+                externalReticleRaycast = null;
+                throw new InvalidCastException();
+            }
+        }
     }
 
     private void OnEnable()

@@ -13,7 +13,7 @@ namespace Aryzon
 
         private void OnEnable()
         {
-            if (AryzonControllerManager.Instance == null) return;
+            if (AryzonControllerManager.Instance == null) { gameObject.SetActive(false); return; }
             AryzonControllerManager.Instance.OnControllerConnected.AddListener(ConnectionChanged);
             AryzonControllerManager.Instance.OnControllerDisconnected.AddListener(ConnectionChanged);
             ConnectionChanged(AryzonControllerManager.Instance.ConnectionStatus);
@@ -21,7 +21,7 @@ namespace Aryzon
 
         private void OnDisable()
         {
-            if (AryzonControllerManager.Instance == null) return;
+            if (AryzonControllerManager.Instance == null) { gameObject.SetActive(false); return; }
             AryzonControllerManager.Instance.OnControllerConnected.RemoveListener(ConnectionChanged);
             AryzonControllerManager.Instance.OnControllerDisconnected.RemoveListener(ConnectionChanged);
         }

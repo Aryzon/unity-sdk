@@ -19,25 +19,17 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
     public GameObject prefab;
 
     public MonoBehaviour interactionDelegate;
-    public MonoBehaviour ExternalReticleRaycast
+
+    [SerializeField] private MonoBehaviour externalReticleRaycast;
+    public IAryzonReticleRaycast ExternalReticleRaycast
     {
-        get => externalReticleRaycast;
+        get => externalReticleRaycastInterface;
         set
         {
-            if (value == null) {
-                externalReticleRaycastInterface = null;
-                externalReticleRaycast = null;
-                return;
-            }
-            externalReticleRaycast = value;
-            externalReticleRaycastInterface = value as IAryzonReticleRaycast;
-            if (externalReticleRaycastInterface == null) {
-                externalReticleRaycast = null;
-                throw new InvalidCastException();
-            }
+            externalReticleRaycast = null;
+            externalReticleRaycastInterface = value;
         }
     }
-    [SerializeField] private MonoBehaviour externalReticleRaycast;
     private IAryzonReticleRaycast externalReticleRaycastInterface;
 
     public bool useAryzonInputModule = true;

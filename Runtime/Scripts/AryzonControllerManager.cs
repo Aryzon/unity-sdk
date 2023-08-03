@@ -153,13 +153,13 @@ namespace Aryzon
 
             if (AryzonSettings.Controller.Trigger.Down == AryzonSettings.Controller.Trigger.Up)
             {
-                if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) DoTriggerReleased();
-                if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+                if (!triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+                if (triggerDown && !Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerReleased();
             }
             else
             {
-                if (triggerDown && !Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerReleased();
-                if (!triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+                if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+                if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) DoTriggerReleased();
             }
 
             if (menuDown && Input.GetKeyDown(AryzonSettings.Controller.Menu.Up)) DoMenuReleased();

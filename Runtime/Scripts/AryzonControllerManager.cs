@@ -151,8 +151,16 @@ namespace Aryzon
         {
             if (!activeOutsideAryzonMode && (!AryzonSettings.Instance.AryzonMode || !AryzonSettings.Instance.LandscapeMode)) return;
 
-            if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) DoTriggerReleased();
-            if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+            if (AryzonSettings.Controller.Trigger.Down == AryzonSettings.Controller.Trigger.Up)
+            {
+                if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) DoTriggerReleased();
+                if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+            }
+            else
+            {
+                if (triggerDown && !Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerReleased();
+                if (!triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
+            }
 
             if (menuDown && Input.GetKeyDown(AryzonSettings.Controller.Menu.Up)) DoMenuReleased();
             if (Input.GetKeyDown(AryzonSettings.Controller.Menu.Down)) DoMenuDown();

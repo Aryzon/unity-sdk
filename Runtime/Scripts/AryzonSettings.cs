@@ -316,7 +316,7 @@ namespace Aryzon {
             public static KeyMap Menu = new KeyMap();
             public static KeyMap Exit = new KeyMap(KeyCode.L, KeyCode.V);
             public static KeyMap A = new KeyMap();
-            public static KeyMap B = new KeyMap(KeyCode.JoystickButton1, KeyCode.Joystick1Button1);
+            public static KeyMap B = new KeyMap(KeyCode.JoystickButton1, KeyCode.JoystickButton1);
             public static KeyMap X = new KeyMap();
             public static KeyMap Y = new KeyMap(KeyCode.Menu, KeyCode.Menu);
 #endif

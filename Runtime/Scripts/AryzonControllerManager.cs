@@ -165,7 +165,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Menu.Down == AryzonSettings.Controller.Menu.Up)
             {
                 if (!menuDown && Input.GetKeyDown(AryzonSettings.Controller.Menu.Down)) DoMenuDown();
-                if (menuDown && !Input.GetKeyDown(AryzonSettings.Controller.Menu.Down)) DoMenuReleased();
+                if (menuDown && Input.GetKeyUp(AryzonSettings.Controller.Menu.Down)) DoMenuReleased();
             }
             else
             {
@@ -176,7 +176,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Exit.Down == AryzonSettings.Controller.Exit.Up)
             {
                 if (!exitDown && Input.GetKeyDown(AryzonSettings.Controller.Exit.Down)) DoExitDown();
-                if (exitDown && !Input.GetKeyDown(AryzonSettings.Controller.Exit.Down)) DoExitReleased();
+                if (exitDown && Input.GetKeyUp(AryzonSettings.Controller.Exit.Down)) DoExitReleased();
             }
             else
             {
@@ -187,7 +187,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.A.Down == AryzonSettings.Controller.A.Up)
             {
                 if (!aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoADown();
-                if (aDown && !Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoAReleased();
+                if (aDown && Input.GetKeyUp(AryzonSettings.Controller.A.Down)) DoAReleased();
             }
             else
             {
@@ -198,7 +198,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.B.Down == AryzonSettings.Controller.B.Up)
             {
                 if (!bDown && Input.GetKeyDown(AryzonSettings.Controller.B.Down)) DoBDown();
-                if (bDown && !Input.GetKeyDown(AryzonSettings.Controller.B.Down)) DoBReleased();
+                if (bDown && Input.GetKeyUp(AryzonSettings.Controller.B.Down)) DoBReleased();
             }
             else
             {
@@ -209,7 +209,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.X.Down == AryzonSettings.Controller.X.Up)
             {
                 if (!xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXDown();
-                if (xDown && !Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXReleased();
+                if (xDown && Input.GetKeyUp(AryzonSettings.Controller.X.Down)) DoXReleased();
             }
             else
             {
@@ -220,7 +220,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Y.Down == AryzonSettings.Controller.Y.Up)
             {
                 if (!yDown && Input.GetKeyDown(AryzonSettings.Controller.Y.Down)) DoYDown();
-                if (yDown && !Input.GetKeyDown(AryzonSettings.Controller.Y.Down)) DoYReleased();
+                if (yDown && Input.GetKeyUp(AryzonSettings.Controller.Y.Down)) DoYReleased();
             }
             else
             {
@@ -231,7 +231,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Up.Down == AryzonSettings.Controller.Up.Up)
             {
                 if (!upDown && Input.GetKeyDown(AryzonSettings.Controller.Up.Down)) DoUpDown();
-                if (upDown && !Input.GetKeyDown(AryzonSettings.Controller.Up.Down)) DoUpReleased();
+                if (upDown && Input.GetKeyUp(AryzonSettings.Controller.Up.Down)) DoUpReleased();
             }
             else
             {
@@ -242,7 +242,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Down.Down == AryzonSettings.Controller.Down.Up)
             {
                 if (!downDown && Input.GetKeyDown(AryzonSettings.Controller.Down.Down)) DoDownDown();
-                if (downDown && !Input.GetKeyDown(AryzonSettings.Controller.Down.Down)) DoDownReleased();
+                if (downDown && Input.GetKeyUp(AryzonSettings.Controller.Down.Down)) DoDownReleased();
             }
             else
             {
@@ -253,7 +253,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Left.Down == AryzonSettings.Controller.Left.Up)
             {
                 if (!leftDown && Input.GetKeyDown(AryzonSettings.Controller.Left.Down)) DoLeftDown();
-                if (leftDown && !Input.GetKeyDown(AryzonSettings.Controller.Left.Down)) DoLeftReleased();
+                if (leftDown && Input.GetKeyUp(AryzonSettings.Controller.Left.Down)) DoLeftReleased();
             }
             else
             {
@@ -264,7 +264,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Right.Down == AryzonSettings.Controller.Right.Up)
             {
                 if (!rightDown && Input.GetKeyDown(AryzonSettings.Controller.Right.Down)) DoRightDown();
-                if (rightDown && !Input.GetKeyDown(AryzonSettings.Controller.Right.Down)) DoRightReleased();
+                if (rightDown && Input.GetKeyUp(AryzonSettings.Controller.Right.Down)) DoRightReleased();
             }
             else
             {

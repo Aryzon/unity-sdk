@@ -26,7 +26,7 @@ namespace Aryzon.EditorUI {
 
         SerializedProperty addEditorMovementControlsProp;
 
-        SerializedProperty showAryzonButtonProp;
+        SerializedProperty showStartButtonProp;
         SerializedProperty setAryzonModeOnStartProp;
 		SerializedProperty blackBackgroundProp;
 

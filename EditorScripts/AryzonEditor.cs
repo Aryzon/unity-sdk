@@ -149,8 +149,8 @@ namespace Aryzon.EditorUI {
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 
-			EditorGUILayout.PropertyField(showStartButtonProp, new GUIContent("Set Aryzon mode on Start"), GUILayout.Height(fieldHeight));
-            EditorGUILayout.PropertyField(showStartAryzonButtonStartProp, new GUIContent("Show the Aryzon button"), GUILayout.Height(fieldHeight));
+			EditorGUILayout.PropertyField(setAryzonModeOnStartProp, new GUIContent("Set Aryzon mode on Start"), GUILayout.Height(fieldHeight));
+            EditorGUILayout.PropertyField(showStartButtonProp, new GUIContent("Show the Start Aryzon button"), GUILayout.Height(fieldHeight));
             EditorGUILayout.PropertyField(blackBackgroundProp, new GUIContent("Auto setup cameras for AR/MR", "This will disable the camera feed in stereoscopic mode (ARFoundation only) and set its Clear Flags to Solid Color black (any tracking engine). This is recommended for MR use, for VR you may want to render the Sky Box, in that case you will need to disable the camera feed manually."), GUILayout.Height(fieldHeight));
             EditorGUILayout.PropertyField(addEditorMovementControlsProp, new GUIContent("Add movement controls (editor only)"), GUILayout.Height(fieldHeight));
             EditorGUILayout.Space();

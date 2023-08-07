@@ -154,7 +154,7 @@ namespace Aryzon
             if (AryzonSettings.Controller.Trigger.Down == AryzonSettings.Controller.Trigger.Up)
             {
                 if (!triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
-                if (triggerDown && !Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerReleased();
+                if (triggerDown && Input.GetKeyUp(AryzonSettings.Controller.Trigger.Down)) DoTriggerReleased();
             }
             else
             {

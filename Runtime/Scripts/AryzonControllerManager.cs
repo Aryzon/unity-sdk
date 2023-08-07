@@ -284,12 +284,13 @@ namespace Aryzon
                 DoRightReleased();
             }
 
-            float x = (upDown ? 1f : 0f) - (downDown ? 1f : 0f);
-            float y = (rightDown ? 1f : 0f) - (leftDown ? 1f : 0f);
+            float x = (rightDown ? 1f : 0f) - (leftDown ? 1f : 0f);
+            float y = (upDown ? 1f : 0f) - (downDown ? 1f : 0f);
+
+            thumb = new Vector2(x, y).normalized;
 
             if (!thumbWasDown && thumbDown)
             {
-                thumb = new Vector2(x, y).normalized;
                 DoThumbDown();
             }
             else if (thumbWasDown && !thumbDown)

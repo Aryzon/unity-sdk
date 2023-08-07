@@ -64,7 +64,7 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
 
     private AryzonInputModule aryzonInputModule;
     private BaseInputModule baseInputModule;
-    public AryzonReticleAnimator reticleAnimator;
+    private AryzonReticleAnimator reticleAnimator;
 
     private GameObject eventSystemGO;
     private GameObject reticle;

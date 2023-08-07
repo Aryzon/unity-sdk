@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 623598950969334389, guid: 0239fb0358e2d4505aa064fff73a5a46, type: 3}
   interactionDelegate: {fileID: 0}
+  externalReticleRaycast: {fileID: 0}
   useAryzonInputModule: 1
   timedClick: 1
   showDebugRay: 1
@@ -56,7 +57,7 @@ MonoBehaviour:
   timeToClick: 0.8
   layers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2147483647
   disableScreenOverlaysInStereoMode: 1
   setWorldSpaceCameras: 1
   reticleAnimator: {fileID: 0}

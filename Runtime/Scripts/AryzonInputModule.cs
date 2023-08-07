@@ -282,6 +282,10 @@ namespace UnityEngine.EventSystems
             {
                 isInteractable = interactionDelegate.IsInteractable(currentGO);
             }
+            else if (currentGO && (externalRaycastObject != null || !externalGO))
+            {
+                isInteractable = true;
+            }
 
             if (isInteractable)
             {

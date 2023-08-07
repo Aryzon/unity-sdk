@@ -43,6 +43,10 @@ namespace Aryzon
             {
                 ShowMainUI();
             }
+            else if (AryzonSettings.Instance.aryzonManager.showStartButton)
+            {
+                startUI.SetActive(true);
+            }
         }
 
         private void Update()
@@ -115,7 +119,7 @@ namespace Aryzon
 
         public void OnStopAryzonMode(AryzonModeEventArgs e)
         {
-            startUI.SetActive(true);
+            if (AryzonSettings.Instance.aryzonManager.showStartButton) startUI.SetActive(true);
             phoneInHeadsetUI.SetActive(false);
         }
 

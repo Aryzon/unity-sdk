@@ -55,7 +55,8 @@ namespace Aryzon
 		public bool showRotationEvents;
 		public bool startTrackingBool;
 		public bool stopTrackingBool;
-		public bool showReticle;
+        public bool showStartButton = true;
+        public bool showReticle;
 		public bool alwaysApplyPose;
 
 		private AryzonPose _trackerPose;

@@ -19,6 +19,7 @@ namespace Aryzon
         }
 
         public static AryzonControllerManager Instance;
+        public ControllerMode controllerMode;
         public bool activeOutsideAryzonMode = false;
 
         [Header("Trigger")]
@@ -150,6 +151,7 @@ namespace Aryzon
         private void Update()
         {
             if (!activeOutsideAryzonMode && (!AryzonSettings.Instance.AryzonMode || !AryzonSettings.Instance.LandscapeMode)) return;
+            AryzonSettings.controllerMode = controllerMode;
 
             if (AryzonSettings.Controller.Trigger.Down == AryzonSettings.Controller.Trigger.Up)
             {
@@ -161,7 +163,7 @@ namespace Aryzon
                 if (Input.GetKeyDown(AryzonSettings.Controller.Trigger.Down)) DoTriggerDown();
                 if (triggerDown && Input.GetKeyDown(AryzonSettings.Controller.Trigger.Up)) DoTriggerReleased();
             }
-            
+
             if (AryzonSettings.Controller.Menu.Down == AryzonSettings.Controller.Menu.Up)
             {
                 if (!menuDown && Input.GetKeyDown(AryzonSettings.Controller.Menu.Down)) DoMenuDown();
@@ -271,7 +273,7 @@ namespace Aryzon
                 if (Input.GetKeyDown(AryzonSettings.Controller.Right.Down)) DoRightDown();
                 if (rightDown && Input.GetKeyDown(AryzonSettings.Controller.Right.Up)) DoRightReleased();
             }
-            
+
 
             if (upDown && downDown)
             {

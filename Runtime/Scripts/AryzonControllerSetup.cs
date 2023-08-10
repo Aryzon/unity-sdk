@@ -103,13 +103,13 @@ namespace Aryzon
                     {
                         downInUpdate = true;
 
-                        AryzonSettings.Controller.Trigger = new AryzonSettings.Controller.KeyMap(keyCode, AryzonSettings.Controller.Trigger.Up);
+                        //AryzonSettings.Controller.Trigger = new AryzonSettings.Controller.KeyMap(keyCode, AryzonSettings.Controller.Trigger.Up);
                         
                         keyDown = keyCode;
                     }
                     if (downInUpdate && Input.GetKeyUp(keyCode))
                     {
-                        AryzonSettings.Controller.Trigger = new AryzonSettings.Controller.KeyMap(AryzonSettings.Controller.Trigger.Down, keyCode);
+                        //AryzonSettings.Controller.Trigger = new AryzonSettings.Controller.KeyMap(AryzonSettings.Controller.Trigger.Down, keyCode);
                         keyUp = keyCode;
                         
                         if (keyDown == keyUp)

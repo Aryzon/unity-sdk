@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_IOS
+using System.Runtime.InteropServices;
+#endif
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-using Aryzon;
-using System.Runtime.InteropServices;
-using System.Linq;
 
 namespace Aryzon
 {
@@ -19,7 +20,7 @@ namespace Aryzon
         }
 
         public static AryzonControllerManager Instance;
-        public ControllerMode controllerMode;
+        private ControllerMode controllerMode = ControllerMode.Y;
         public bool activeOutsideAryzonMode = false;
 
         [Header("Trigger")]
@@ -54,6 +55,7 @@ namespace Aryzon
         [Header("Controller")]
         public UnityEvent<Connection> OnControllerConnected;
         public UnityEvent<Connection> OnControllerDisconnected;
+        public UnityEvent<int> OnModeChanged;
 
         public Connection ConnectionStatus
         {
@@ -74,6 +76,26 @@ namespace Aryzon
             get => isUsed;
         }
         private bool isUsed;
+
+        // Unknown = -1, Incorrect = 0, Correct = 1
+        public int CorrectMode
+        {
+#if UNITY_IOS
+            get => correctMode;
+            private set
+            {
+                if (correctMode != value)
+                {
+                    Debug.Log("Setting correct mode to: " + value);
+                    correctMode = value;
+                    OnModeChanged?.Invoke(correctMode);
+                }
+            }
+#else
+            get => 1;
+#endif
+        }
+        private int correctMode = -1;
 
         private bool triggerDown;
         private bool menuDown;
@@ -150,8 +172,33 @@ namespace Aryzon
 
         private void Update()
         {
-            if (!activeOutsideAryzonMode && (!AryzonSettings.Instance.AryzonMode || !AryzonSettings.Instance.LandscapeMode)) return;
+            // A and X have special status to check for correct mode, therefore they are up here.
             AryzonSettings.controllerMode = controllerMode;
+            if (AryzonSettings.Controller.A.Down == AryzonSettings.Controller.A.Up)
+            {
+                if (!aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoADown();
+                if (aDown && Input.GetKeyUp(AryzonSettings.Controller.A.Down)) DoAReleased();
+            }
+            else
+            {
+                if (Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoADown();
+                if (aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Up)) DoAReleased();
+            }
+
+
+            if (AryzonSettings.Controller.X.Down == AryzonSettings.Controller.X.Up)
+            {
+                if (!xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXDown();
+                if (xDown && Input.GetKeyUp(AryzonSettings.Controller.X.Down)) DoXReleased();
+            }
+            else
+            {
+                if (Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXDown();
+                if (xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Up)) DoXReleased();
+            }
+
+
+            if (!activeOutsideAryzonMode && (!AryzonSettings.Instance.AryzonMode || !AryzonSettings.Instance.LandscapeMode)) return;
 
             if (AryzonSettings.Controller.Trigger.Down == AryzonSettings.Controller.Trigger.Up)
             {
@@ -186,16 +233,7 @@ namespace Aryzon
                 if (exitDown && Input.GetKeyDown(AryzonSettings.Controller.Exit.Up)) DoExitReleased();
             }
 
-            if (AryzonSettings.Controller.A.Down == AryzonSettings.Controller.A.Up)
-            {
-                if (!aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoADown();
-                if (aDown && Input.GetKeyUp(AryzonSettings.Controller.A.Down)) DoAReleased();
-            }
-            else
-            {
-                if (Input.GetKeyDown(AryzonSettings.Controller.A.Down)) DoADown();
-                if (aDown && Input.GetKeyDown(AryzonSettings.Controller.A.Up)) DoAReleased();
-            }
+            
 
             if (AryzonSettings.Controller.B.Down == AryzonSettings.Controller.B.Up)
             {
@@ -208,17 +246,7 @@ namespace Aryzon
                 if (bDown && Input.GetKeyDown(AryzonSettings.Controller.B.Up)) DoBReleased();
             }
 
-            if (AryzonSettings.Controller.X.Down == AryzonSettings.Controller.X.Up)
-            {
-                if (!xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXDown();
-                if (xDown && Input.GetKeyUp(AryzonSettings.Controller.X.Down)) DoXReleased();
-            }
-            else
-            {
-                if (Input.GetKeyDown(AryzonSettings.Controller.X.Down)) DoXDown();
-                if (xDown && Input.GetKeyDown(AryzonSettings.Controller.X.Up)) DoXReleased();
-            }
-
+            
             if (AryzonSettings.Controller.Y.Down == AryzonSettings.Controller.Y.Up)
             {
                 if (!yDown && Input.GetKeyDown(AryzonSettings.Controller.Y.Down)) DoYDown();
@@ -327,9 +355,14 @@ namespace Aryzon
 
         private void DoADown()
         {
-            isUsed = true;
+            CorrectMode = 1;
             aDown = true;
-            OnADown?.Invoke();
+
+            if (activeOutsideAryzonMode)
+            {
+                isUsed = true;
+                OnADown?.Invoke();
+            }
         }
 
         private void DoBDown()
@@ -341,9 +374,14 @@ namespace Aryzon
 
         private void DoXDown()
         {
-            isUsed = true;
+            CorrectMode = 1;
             xDown = true;
-            OnXDown?.Invoke();
+
+            if (activeOutsideAryzonMode)
+            {
+                isUsed = true;
+                OnXDown?.Invoke();
+            }
         }
 
         private void DoYDown()

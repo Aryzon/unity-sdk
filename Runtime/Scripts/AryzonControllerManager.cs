@@ -355,7 +355,9 @@ namespace Aryzon
 
         private void DoADown()
         {
+#if UNITY_IOS
             CorrectMode = 1;
+#endif
             aDown = true;
 
             if (activeOutsideAryzonMode)
@@ -374,7 +376,9 @@ namespace Aryzon
 
         private void DoXDown()
         {
+#if UNITY_IOS
             CorrectMode = 1;
+#endif
             xDown = true;
 
             if (activeOutsideAryzonMode)

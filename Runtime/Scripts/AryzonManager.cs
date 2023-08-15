@@ -478,7 +478,12 @@ namespace Aryzon
 			yield return new WaitForSeconds(seconds);
 			checkingOrientation = false;
 		}
-	}
+
+        private void OnDestroy()
+        {
+            if (editorPoseProvider) Destroy(editorPoseProvider.gameObject);
+        }
+    }
 
 	public struct AryzonPose
 	{

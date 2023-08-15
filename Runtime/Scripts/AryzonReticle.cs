@@ -318,4 +318,10 @@ public class AryzonReticle : MonoBehaviour, IAryzonEventHandler
             AryzonSettings.Instance.UnregisterEventHandler(this);
         }
     }
+
+    private void OnDestroy()
+    {
+        if (reticle) Destroy(reticle);
+        if (reticleCam) Destroy(reticleCam.gameObject);
+    }
 }

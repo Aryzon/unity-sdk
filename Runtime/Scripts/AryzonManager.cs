@@ -481,7 +481,9 @@ namespace Aryzon
 
         private void OnDestroy()
         {
-            if (editorPoseProvider) Destroy(editorPoseProvider.gameObject);
+#if UNITY_EDITOR
+	        if (editorPoseProvider) Destroy(editorPoseProvider.gameObject);
+#endif
         }
     }
 
